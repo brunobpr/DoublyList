@@ -19,7 +19,7 @@ public class Person {
 		this.firstName = name;
 		this.priority = prio;
 		this.id = prio.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
-		System.out.println(id);
+		//System.out.println(id);
 	}
 	
 	//New instance of a person 

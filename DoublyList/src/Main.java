@@ -12,6 +12,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		Controller controller = new Controller();
+	
+		
 		DoublyLists db = new DoublyLists();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		for (int i = 0; i <= 3; i++) {
@@ -56,7 +60,6 @@ public class Main {
 			System.out.println("Name: " + list.get(i).getPerson().getFirstName() + " " + "Prio: "
 					+ list.get(i).getPerson().getPriority() + ".");
 		}
-		
 		
 		
 		/*
