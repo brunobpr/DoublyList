@@ -1,5 +1,9 @@
 package Model;
-
+/**
+ * 
+ * @author Bruno Ribeiro - 2017138
+ *
+ */
 public class Node {
 	
 	private Node previous;

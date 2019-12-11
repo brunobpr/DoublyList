@@ -7,6 +7,7 @@ import Controller.Controller;
 import Model.DoublyLists;
 import Model.Node;
 import Model.Person;
+import Model.Priority;
 
 public class Main {
 
@@ -21,12 +22,12 @@ public class Main {
 		for (int i = 0; i <= 3; i++) {
 			{
 				String name = "";
-				String prio = "";
+				Priority prio;
 				try {
 					System.out.println("Name: ");
 					name = reader.readLine();
 					System.out.println("Prio: ");
-					prio = reader.readLine();
+					prio = Priority.valueOf((reader.readLine()));
 					Person p = new Person(name, prio);
 					db.newPerson(p);
 				} catch (IOException e) {
@@ -37,7 +38,7 @@ public class Main {
 			}
 
 		}
-		ArrayList<Node> list = db.getAll();
+		ArrayList<Node> list = db.getQueue();
 		System.out.println("First " + list.get(0).getPerson().getFirstName() + " "
 				+ list.get(0).getNext().getPerson().getFirstName());
 		for (int i = 1; i < list.size() - 2; i++) {
@@ -55,7 +56,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		list = db.getAll();
+		list = db.getQueue();
 		for (int i = 0; i < list.size() - 1; i++) {
 			System.out.println("Name: " + list.get(i).getPerson().getFirstName() + " " + "Prio: "
 					+ list.get(i).getPerson().getPriority() + ".");

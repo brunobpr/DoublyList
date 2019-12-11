@@ -5,17 +5,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * @author Bruno Ribeiro - 2017138
+ * 
+ */
+
 public class DoublyLists {
-	private Node first;
-	private Node last;
-	private Node lastHigh;
-	private Node lastMed;
+	private Node firstNode;
+	private Node lastNode;
+	private Node lastHighPriorityNode;
+	private Node lastMediumPriorityNode;
 	private int size;
 
 	public DoublyLists() {
 		this.size = 0;
-		this.first = null;
-		this.last = null;
+		this.firstNode = null;
+		this.lastNode = null;
 	}
 
 	/**
@@ -23,144 +28,149 @@ public class DoublyLists {
 	 */
 	public void newPerson(Person person) {
 		Node node = new Node(person);
-		if (person.getPriority().equals("High")) {
-			addHigh(node);
-		} else if (person.getPriority().equals("Med")) {
-			addMed(node);
+		if (person.getPriority() == Priority.HIGH) {
+			addHighPriorityPerson(node);
+		} else if (person.getPriority() == Priority.MEDIUM) {
+			addMediumPriorityPerson(node);
 		} else {
-			addNon(node);
+			addLowPriorityPerson(node);
 		}
 
+		
 	}
 
-	public void addHigh(Node highPrio) {
+	public void addHighPriorityPerson(Node newNodeHigh) {
 		// If the list is empty, the current node will be the first, last and also last
 		// high priority
 		if (size == 0) {
-			first = highPrio;
-			last = highPrio;
-			lastHigh = highPrio;
-			highPrio.setNext(null);
-			highPrio.setPrevious(null);
+			firstNode = newNodeHigh;
+			lastNode = newNodeHigh;
+			lastHighPriorityNode = newNodeHigh;
+			newNodeHigh.setNext(null);
+			newNodeHigh.setPrevious(null);
 		} else {
 			// If there isn't any last high priority, it means that the queue has some
 			// element, but none of them are high priority
 			// For that reason the current Node will be the last high priority
-			if (lastHigh == null) {
-				first.setPrevious(highPrio);
-				highPrio.setNext(first);
-				first = highPrio;
-				lastHigh = highPrio;
+			if (lastHighPriorityNode == null) {
+				firstNode.setPrevious(newNodeHigh);
+				newNodeHigh.setNext(firstNode);
+				firstNode = newNodeHigh;
+				lastHighPriorityNode = newNodeHigh;
 			} else {
 				// If the last high priority doens't have a next element, it means that the last
 				// high is also the last element of the queue
-				if (lastHigh.getNext() == null) {
-					last = highPrio;
-					highPrio.setPrevious(lastHigh);
-					highPrio.setNext(null);
-					lastHigh.setNext(highPrio);
-					lastHigh = highPrio;
+				if (lastHighPriorityNode.getNext() == null) {
+					lastNode = newNodeHigh;
+					newNodeHigh.setPrevious(lastHighPriorityNode);
+					newNodeHigh.setNext(null);
+					lastHighPriorityNode.setNext(newNodeHigh);
+					lastHighPriorityNode = newNodeHigh;
 				} else {
 					// In this case, there is at least one high priority in the queue and at least
 					// on element of other priority
 					// So the current Node will be placed at the end of the high priority queue, but
 					// before the medium or low priority
-					lastHigh.getNext().setPrevious(highPrio);
-					highPrio.setPrevious(lastHigh);
-					highPrio.setNext(lastHigh.getNext());
-					lastHigh.setNext(highPrio);
-					lastHigh = highPrio;
+					lastHighPriorityNode.getNext().setPrevious(newNodeHigh);
+					newNodeHigh.setPrevious(lastHighPriorityNode);
+					newNodeHigh.setNext(lastHighPriorityNode.getNext());
+					lastHighPriorityNode.setNext(newNodeHigh);
+					lastHighPriorityNode = newNodeHigh;
 				}
 			}
 		}
 		size++;
 	}
 
-	public void addMed(Node medPrio) {
+	public void addMediumPriorityPerson(Node newNodeMedium) {
 		// If the list is empty, the current node will be the first, last and also the
 		// last medium priority
 		if (size == 0) {
-			first = medPrio;
-			last = medPrio;
-			lastMed = medPrio;
-			medPrio.setNext(null);
-			medPrio.setPrevious(null);
+			firstNode = newNodeMedium;
+			lastNode = newNodeMedium;
+			lastMediumPriorityNode = newNodeMedium;
+			newNodeMedium.setNext(null);
+			newNodeMedium.setPrevious(null);
 		} else {
 			// If there isn't any medium or high priority, it means that the curret Node
 			// will be placed first in the queue and also the last medium priority;
-			if (lastMed == null && lastHigh == null) {
-				first.setPrevious(medPrio);
-				medPrio.setNext(first);
-				first = medPrio;
-				lastMed = medPrio;
+			if (lastMediumPriorityNode == null && lastHighPriorityNode == null) {
+				firstNode.setPrevious(newNodeMedium);
+				newNodeMedium.setNext(firstNode);
+				firstNode = newNodeMedium;
+				lastMediumPriorityNode = newNodeMedium;
 			}
 			// If there ins't any medium priority, but there is at least one high priority,
 			// it means that the current Node will be placed after the last high priority
-			// and will be the last medium;
-			else if (lastMed == null && lastHigh != null) {
+			// and it will be the first and last medium;
+			else if (lastMediumPriorityNode == null && lastHighPriorityNode != null) {
 				//If the last High priority is the last element of the entire queue
 				//It means that there isn't any medium or low priority
-				if (lastHigh == last) {
-					lastHigh.setNext(medPrio);
-					lastMed = medPrio;
-					medPrio.setPrevious(lastHigh);
-					medPrio.setNext(lastHigh.getNext());
+				if (lastHighPriorityNode == lastNode) {
+					lastHighPriorityNode.setNext(newNodeMedium);
+					lastMediumPriorityNode = newNodeMedium;
+					newNodeMedium.setPrevious(lastHighPriorityNode);
+					newNodeMedium.setNext(lastHighPriorityNode.getNext());
 				}
 				//In this cases there is at least one element after the last high priority
 				else {
-					lastHigh.getNext().setPrevious(medPrio);
-					medPrio.setPrevious(lastHigh);
-					medPrio.setNext(lastHigh.getNext());
-					lastHigh.setNext(medPrio);
-					lastMed = medPrio;
+					lastHighPriorityNode.getNext().setPrevious(newNodeMedium);
+					newNodeMedium.setPrevious(lastHighPriorityNode);
+					newNodeMedium.setNext(lastHighPriorityNode.getNext());
+					lastHighPriorityNode.setNext(newNodeMedium);
+					lastMediumPriorityNode = newNodeMedium;
 				}
 			}
 			// If there ins't any element after the last medium, it means that the last
 			// medium priority is also the last element of the whole queue;
-			else if (lastMed == null && lastMed.getNext() == null) {
-				last = medPrio;
-				medPrio.setPrevious(lastMed);
-				medPrio.setNext(null);
-				lastMed.setNext(medPrio);
-				lastMed = medPrio;
+			else if (lastMediumPriorityNode == null && lastMediumPriorityNode.getNext() == null) {
+				lastNode = newNodeMedium;
+				newNodeMedium.setPrevious(lastMediumPriorityNode);
+				newNodeMedium.setNext(null);
+				lastMediumPriorityNode.setNext(newNodeMedium);
+				lastMediumPriorityNode = newNodeMedium;
 			}
 			// In this case, the queue already has the following elements: lastHigh, lastMedium
 			else {
 				//If the last medium priority doesn't have a next element
 				//It means that the current one is also the last in the queue, therefore there isnt any low priority
-				if (lastMed.getNext() == null) {
-					last = medPrio;
-					medPrio.setPrevious(lastMed);
-					medPrio.setNext(lastMed.getNext());
-					lastMed.setNext(medPrio);
-					lastMed = medPrio;
+				if (lastMediumPriorityNode.getNext() == null) {
+					lastNode = newNodeMedium;
+					newNodeMedium.setPrevious(lastMediumPriorityNode);
+					newNodeMedium.setNext(lastMediumPriorityNode.getNext());
+					lastMediumPriorityNode.setNext(newNodeMedium);
+					lastMediumPriorityNode = newNodeMedium;
 				} 
 				//In the last of the cases, the Node will be added after the last medium priority and before any low one.
 				else {
-					lastMed.getNext().setPrevious(medPrio);
-					medPrio.setPrevious(lastMed);
-					medPrio.setNext(lastMed.getNext());
-					lastMed.setNext(medPrio);
-					lastMed = medPrio;
+					lastMediumPriorityNode.getNext().setPrevious(newNodeMedium);
+					newNodeMedium.setPrevious(lastMediumPriorityNode);
+					newNodeMedium.setNext(lastMediumPriorityNode.getNext());
+					lastMediumPriorityNode.setNext(newNodeMedium);
+					lastMediumPriorityNode = newNodeMedium;
 				}
 			}
 		}
 		size++;
 	}
 
-	public void addNon(Node nonPrio) {
+	
+	/** When a low priority person has been added to the queue, they must go straight to the end of it.
+	 * @param newNodeLow Node of Low Priority Status
+	 */
+	public void addLowPriorityPerson(Node newNodeLow) {
 		//If there isn't any element in the queue, it means that the current node will be the first and the last in the queue
 		if (size == 0) {
-			first = nonPrio;
-			last = nonPrio;
-			nonPrio.setNext(null);
-			nonPrio.setPrevious(null);
+			firstNode = newNodeLow;
+			lastNode = newNodeLow;
+			newNodeLow.setNext(null);
+			newNodeLow.setPrevious(null);
 		} 
 		//If there is one element in the queue, it goes straigh to the end of the queue
 		else {
-			nonPrio.setPrevious(last);
-			last.setNext(nonPrio);
-			last = nonPrio;
+			newNodeLow.setPrevious(lastNode);
+			lastNode.setNext(newNodeLow);
+			lastNode = newNodeLow;
 		}
 		size++;
 	}
@@ -168,13 +178,13 @@ public class DoublyLists {
 	/**
 	 * @return getAll returns a ArrayList of all elements of the doubly list
 	 */
-	public ArrayList<Node> getAll() {
+	public ArrayList<Node> getQueue() {
 		ArrayList<Node> list = new ArrayList<>();
-		Node n = first;
-		list.add(first);
+		Node node = firstNode;
+		list.add(firstNode);
 		for (int i = 0; i <= size - 1; i++) {
-			n = n.getNext();
-			list.add(n);
+			node = node.getNext();
+			list.add(node);
 		}
 		return list;
 	}
@@ -183,9 +193,9 @@ public class DoublyLists {
 	 * @param name
 	 * @return the position of the person in the queue
 	 */
-	public int checkPosition(String name) {
+	public int checkPositionByName(String name) {
 		int position = 0;
-		Node n = first;
+		Node n = firstNode;
 		//Looping through all the elements of the queue...
 		for (int i = 0; i <= size - 1; i++) {
 			//...until it reaches the person with the given ID
@@ -198,10 +208,11 @@ public class DoublyLists {
 		return position = -1;
 	}
 	
-	//Can update information for a single person, without impacting their position in the list.
-	public void changeInfo(String name, String newName) {
-		Node n = first;
-		//Loop though all the elements of the queue...
+	// At any time, the staff member should have the ability to see what position in the queue a person is, 
+	// by typing in a unique ID number that is given to the person when they register in the system.
+	public void updateInfoById(String name, String newName) {
+		Node n = firstNode;
+		//Looping through all the elements of the queue...
 		for (int i = 0; i <= size - 1; i++) {
 			//...until it reaches the person with the given ID
 			if (n.getPerson().getFirstName().equals(name)) {
@@ -216,12 +227,12 @@ public class DoublyLists {
 	 * @param cut the number of people that will be removed from the end of the queue
 	 */
 	public void cutOff(int cut) {
-		Node n = last;
+		Node n = lastNode;
 		int sizeBeforeCut = size;
 		//Loop starting from the end of the queue
 		for (int i = 0; i < cut; i++) {
-			last = n.getPrevious();
-			last.setNext(null);
+			lastNode = n.getPrevious();
+			lastNode.setNext(null);
 			size--;
 		}
 	}
@@ -232,7 +243,7 @@ public class DoublyLists {
 	 * @param id unique id of the person
 	 */
 	public void deletePerson(String id) {
-		Node n = first;
+		Node n = firstNode;
 		//Loop through all elements of the queue...
 		for (int i = 0; i <= size - 1; i++) {
 			//Until it reaches the person with the given ID
@@ -252,8 +263,8 @@ public class DoublyLists {
 	 * The user can remove the first person from the queue when this has been looked after. 
 	 */
 	public void goToNext() {
-		first.getNext().setPrevious(null);;
-		first = first.getNext();
+		firstNode.getNext().setPrevious(null);;
+		firstNode = firstNode.getNext();
 	}
 	
 }

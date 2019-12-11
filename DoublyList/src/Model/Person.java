@@ -3,7 +3,7 @@ package Model;
 import java.util.Date;
 
 /**
- * @author brunoribeiro
+ * @author Bruno Ribeiro - 2017138
  *
  */
 public class Person {
@@ -11,15 +11,17 @@ public class Person {
 	private String lastName;
 	private Date date;
 	private String passport;
-	private String priority;
+	private Priority priority;
 	private String id;
 	//Default constructor
-	public Person(String name, String prio) {
+	public Person() {};
+	
+	public Person(String name, Priority priority) {
 		//
 		this.firstName = name;
-		this.priority = prio;
-		this.id = prio.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
-		//System.out.println(id);
+		this.priority = priority;
+		this.id = name.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
+		System.out.println(id);
 	}
 	
 	//New instance of a person 
@@ -30,13 +32,13 @@ public class Person {
 	 * @param passport	Passport Number	
 	 * @param priority	Priority level
 	 */
-	public Person(String firstName, String lastName, Date date, String passport, String priority) {
+	public Person(String firstName, String lastName, Date date, String passport, Priority priority) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.date = date;
 		this.passport = passport;
 		this.priority = priority;
-		this.id = priority.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
+		this.id = firstName.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
 	}
 
 	
@@ -58,7 +60,7 @@ public class Person {
 		return passport;
 	}
 
-	public String getPriority() {
+	public Priority getPriority() {
 		return priority;
 	}
 
@@ -78,7 +80,7 @@ public class Person {
 		this.passport = passport;
 	}
 
-	public void setPriority(String priority) {
+	public void setPriority(Priority priority) {
 		this.priority = priority;
 	}
 
