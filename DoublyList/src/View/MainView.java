@@ -35,11 +35,14 @@ public class MainView extends JFrame{
 		private GridBagLayout grid = new GridBagLayout();
 		private MouseListener mouseListener; 
 		public CardLayout cl = new CardLayout();
-		private HomePanel homePanel = new HomePanel(control);
+		public HomePanel homePanel;
+		public RegistrationPanel registrationPanel;
 		public MainView() {};
 		
 		public MainView(Controller controller, MouseListener mouseListener) {
 				control = controller;
+				homePanel = new HomePanel(controller);
+				registrationPanel = new RegistrationPanel(controller);
 				this.mouseListener = mouseListener;
 				buildFrame();
 				buildMenuPanel();
