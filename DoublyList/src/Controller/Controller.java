@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
 
-import Model.DoublyLists;
+import Model.*;
 import View.*;
 
 public class Controller implements ActionListener {
@@ -29,11 +29,17 @@ public class Controller implements ActionListener {
 					doublyList.getPersonById(mainView.homePanel.getFindTextField()));
 					break;
 		case "update_info_clicked":
-			System.out.println("update_info_clicked");
+			String id = mainView.homePanel.getId();
+			String firstName = mainView.homePanel.getFirstNameTextField();
+			String lastName = mainView.homePanel.getLastNameTextField();
+			String passport = mainView.homePanel.getPassportTextField();
+			Priority priority = mainView.homePanel.getPriority();
+			doublyList.updateInfoById(id, firstName, lastName, passport, priority);
 			break;
 		case "delete_by_id_clicked":
 				doublyList.deletePerson(mainView.homePanel.getId());
 			break;
+			
 		}
 	}
 

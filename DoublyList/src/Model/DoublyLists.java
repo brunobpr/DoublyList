@@ -238,14 +238,18 @@ public class DoublyLists {
 	// the queue a person is,
 	// by typing in a unique ID number that is given to the person when they
 	// register in the system.
-	public void updateInfoById(String name, String newName) {
+	public void updateInfoById(String id, String firstName, String lastName, String passport, Priority priority) {
 		Node n = firstNode;
 		// Looping through all the elements of the queue...
 		for (int i = 0; i <= size - 1; i++) {
 			// ...until it reaches the person with the given ID
-			if (n.getPerson().getFirstName().equals(name)) {
-				// ---+++--- //Setting the new information
-				n.getPerson().setFirstName(newName);
+			if (n.getPerson().getId().equals(id)) {
+				Person updatingPerson = n.getPerson();
+				updatingPerson.setFirstName(firstName);
+				updatingPerson.setLastName(lastName);
+				updatingPerson.setPassport(passport);
+				updatingPerson.setPriority(priority);
+				System.out.println("Working " + updatingPerson.getFirstName());
 			}
 			n = n.getNext();
 		}
@@ -291,7 +295,6 @@ public class DoublyLists {
 					lastNode = n.getPrevious();
 					System.out.println(n.getPerson().getFirstName() + " is being deleted from the queue!");
 				}else {
-					System.out.println("Why?");
 					n.getPrevious().setNext(n.getNext());
 					n.getNext().setPrevious(n.getPrevious());
 					System.out.println(n.getPerson().getFirstName() + " is being deleted from the queue!");

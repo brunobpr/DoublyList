@@ -25,6 +25,7 @@ import javax.swing.border.Border;
 
 import Controller.Controller;
 import Model.Node;
+import Model.Priority;
 
 public class HomePanel extends JPanel {
 
@@ -39,9 +40,10 @@ public class HomePanel extends JPanel {
 	private JTextField lastNameTextField = new JTextField(20);
 	private JTextField passportTextField = new JTextField(20);
 	private JRadioButton highPriorityButton = new JRadioButton("High");
-	private JRadioButton MediumPriorityButton = new JRadioButton("Medium");
+	private JRadioButton mediumPriorityButton = new JRadioButton("Medium");
 	private JRadioButton lowPriorityButton = new JRadioButton("Low");
 	private String id;
+	private int position;
 
 	public HomePanel(Controller controller) {
 		control = controller;
@@ -81,10 +83,11 @@ public class HomePanel extends JPanel {
 	public void responsePanel(int position, Node node) {
 		if (position < 1) {
 			JOptionPane.showMessageDialog(this, this.getFindTextField() + " does not exist! Try a different ID.",
-				    "Person not found!",
-				    JOptionPane.PLAIN_MESSAGE);
-		} else { buildPositionPanel(position, node);}
-			
+					"Person not found!", JOptionPane.PLAIN_MESSAGE);
+		} else {
+			buildPositionPanel(position, node);
+		}
+
 	}
 
 	private void buildPositionPanel(int position, Node node) {
@@ -98,6 +101,7 @@ public class HomePanel extends JPanel {
 	}
 
 	private void buildUpdateInfoPane(int position, Node node) {
+		this.position = position;
 		ImageIcon icon = new ImageIcon("logo.png");
 		JLabel jl = new JLabel("Person at position: " + position);
 		jl.setFont(font = new Font("Verdana", Font.BOLD, 14));
@@ -125,26 +129,57 @@ public class HomePanel extends JPanel {
 		myPanel.add(passportTextField);
 		ButtonGroup group = new ButtonGroup();
 		group.add(highPriorityButton);
-		group.add(MediumPriorityButton);
+		group.add(mediumPriorityButton);
 		group.add(lowPriorityButton);
+		myPanel.add(new JLabel("Priority:"));
 		myPanel.add(highPriorityButton);
-		myPanel.add(MediumPriorityButton);
+		myPanel.add(mediumPriorityButton);
 		myPanel.add(lowPriorityButton);
-			int joptPane = JOptionPane.showOptionDialog(null, myPanel, "Update Information",
-					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon,
-					new String[] { "Save and Close", "Delete", "Close" }, "default");
-			if (joptPane == 0) {
-				save.doClick();
-			} else if (joptPane == 1) {
-				delete.doClick();
-			}
+		if (node.getPerson().getPriority() == Priority.HIGH) {
+			highPriorityButton.setSelected(true);
+		} else if (node.getPerson().getPriority() == Priority.MEDIUM) {
+			mediumPriorityButton.setSelected(true);
+		} else {
+			lowPriorityButton.setSelected(true);
 		}
-	
+		int joptPane = JOptionPane.showOptionDialog(null, myPanel, "Update Information",
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon,
+				new String[] { "Save and Close", "Delete", "Close" }, "default");
+		if (joptPane == 0) {
+			save.doClick();
+		} else if (joptPane == 1) {
+			delete.doClick();
+		}
 		
-	
+	}
 
 	public String getId() {
 		return id;
+	}
+
+	public String getFirstNameTextField() {
+		return firstNameTextField.getText();
+	}
+
+	public String getLastNameTextField() {
+		return lastNameTextField.getText();
+	}
+
+	public String getPassportTextField() {
+		return passportTextField.getText();
+	}
+
+	public Priority getPriority() {
+		if(highPriorityButton.isSelected()) {
+		return Priority.HIGH;
+		}else if(mediumPriorityButton.isSelected()) {
+			return Priority.MEDIUM;
+		}
+		return Priority.LOW;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }
