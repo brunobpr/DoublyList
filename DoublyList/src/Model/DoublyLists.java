@@ -27,7 +27,8 @@ public class DoublyLists {
 	 * @param person
 	 *            is object of type person which holds important information
 	 */
-	public void newPerson(Person person) {
+	public void newPerson(String firstName, String lastName, String passport, Priority priority) {
+		Person person = new Person(firstName, lastName, passport, priority);
 		Node node = new Node(person);
 		if (person.getPriority() == Priority.HIGH) {
 			addHighPriorityPerson(node);
@@ -82,6 +83,26 @@ public class DoublyLists {
 		size++;
 	}
 
+	public void addMed(Node newNodeMedium) {
+
+		if (size == 0) {
+			firstNode = newNodeMedium;
+			lastNode = newNodeMedium;
+			lastMediumPriorityNode = newNodeMedium;
+		} else {
+			Node temporary = firstNode;
+			if (lastMediumPriorityNode != null) {
+				while (temporary != lastMediumPriorityNode) {
+					newNodeMedium.setNext(lastMediumPriorityNode.getNext());
+					newNodeMedium.setPrevious(lastMediumPriorityNode);
+					lastMediumPriorityNode = newNodeMedium;
+				}
+			} else {
+
+			}
+		}
+	}
+
 	public void addMediumPriorityPerson(Node newNodeMedium) {
 		// If the list is empty, the current node will be the first, last and also the
 		// last medium priority
@@ -92,7 +113,7 @@ public class DoublyLists {
 			newNodeMedium.setNext(null);
 			newNodeMedium.setPrevious(null);
 		} else {
-			// If there isn't any medium or high priority, it means that the curret Node
+			// If there isn't any medium or high priority, it means that the current Node
 			// will be placed first in the queue and also the last medium priority;
 			if (lastMediumPriorityNode == null && lastHighPriorityNode == null) {
 				firstNode.setPrevious(newNodeMedium);
@@ -110,7 +131,7 @@ public class DoublyLists {
 					lastHighPriorityNode.setNext(newNodeMedium);
 					lastMediumPriorityNode = newNodeMedium;
 					newNodeMedium.setPrevious(lastHighPriorityNode);
-					newNodeMedium.setNext(lastHighPriorityNode.getNext());
+					lastNode = newNodeMedium;
 				}
 				// In this cases there is at least one element after the last high priority
 				else {
@@ -185,15 +206,25 @@ public class DoublyLists {
 	/**
 	 * @return getAll returns a ArrayList of all elements of the doubly list
 	 */
-	public DoublyLists getQueue() {
-		ArrayList<Node> list = new ArrayList<>();
-		Node node = firstNode;
-		list.add(firstNode);
-		do {
-			node = node.getNext();
-			list.add(node);
-		} while (node.getNext() != null);
-		return this;
+	public String[][] getQueueToTable() {
+		String[][] queue = new String[this.size][5];
+		if (size == 0) {
+			return queue;
+		} else {
+			Node node = firstNode;
+			int position = 0;
+			do {
+				queue[position][0] = String.valueOf(position + 1) + " - " + node.getPerson().getFirstName() + " "
+						+ node.getPerson().getLastName();
+				queue[position][1] = node.getPerson().getId();
+				queue[position][2] = node.getPerson().getPassport();
+				queue[position][4] = String.valueOf(node.getPerson().getPriority());
+				queue[position][3] = node.getPerson().getDate();
+				position++;
+				node = node.getNext();
+			} while (node != null);
+			return queue;
+		}
 	}
 
 	/**
@@ -263,14 +294,14 @@ public class DoublyLists {
 	 *            queue
 	 */
 	public void cutOff(int cut) {
-		Node n = lastNode;
-		int sizeBeforeCut = size;
+			Node n = lastNode;
 		// Loop starting from the end of the queue
-		for (int i = 0; i < cut; i++) {
+			while(size > 0 && cut > 0) {
 			lastNode = n.getPrevious();
 			lastNode.setNext(null);
 			size--;
-		}
+			cut--;
+			}
 	}
 
 	/**
@@ -290,11 +321,11 @@ public class DoublyLists {
 					n.getNext().setPrevious(null);
 					firstNode = n.getNext();
 					System.out.println(n.getPerson().getFirstName() + " is being deleted from the queue!");
-				} else if(n == lastNode){
+				} else if (n == lastNode) {
 					n.getPrevious().setNext(null);
 					lastNode = n.getPrevious();
 					System.out.println(n.getPerson().getFirstName() + " is being deleted from the queue!");
-				}else {
+				} else {
 					n.getPrevious().setNext(n.getNext());
 					n.getNext().setPrevious(n.getPrevious());
 					System.out.println(n.getPerson().getFirstName() + " is being deleted from the queue!");
@@ -308,13 +339,22 @@ public class DoublyLists {
 	}
 
 	/**
-	 * The user can remove the first person from the queue when this has been looked
-	 * after.
+	 * The user can remove the first person from the queue when this has been taken
+	 * care of
 	 */
-	public void goToNext() {
-		firstNode.getNext().setPrevious(null);
-		;
-		firstNode = firstNode.getNext();
+	public Node dequeue() {
+		if (size != 0) {
+			Node nodeOut = firstNode;
+			if (firstNode.getNext() == null)
+				firstNode = null;
+			else {
+				firstNode.getNext().setPrevious(null);
+				firstNode = firstNode.getNext();
+			}
+			size--;
+			return nodeOut;
+		}
+		return null;
 	}
 
 }
