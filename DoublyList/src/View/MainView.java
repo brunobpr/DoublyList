@@ -30,19 +30,21 @@ public class MainView extends JFrame{
 		private JLabel jl = new JLabel();
 		private ImageIcon icon = new ImageIcon();
 		private GridBagConstraints gbc = new GridBagConstraints();
-		private JPanel contentPanel = new JPanel();
+		public JPanel contentPanel = new JPanel();
 		private Font font;
 		private GridBagLayout grid = new GridBagLayout();
 		private MouseListener mouseListener; 
-		public CardLayout cl = new CardLayout();
+		public CardLayout cardLayout = new CardLayout();
 		public HomePanel homePanel;
 		public RegistrationPanel registrationPanel;
+		public QueuePanel queuePanel; 
 		public MainView() {};
 		
 		public MainView(Controller controller, MouseListener mouseListener) {
 				control = controller;
 				homePanel = new HomePanel(controller);
 				registrationPanel = new RegistrationPanel(controller);
+				queuePanel = new QueuePanel(controller);
 				this.mouseListener = mouseListener;
 				buildFrame();
 				buildMenuPanel();
@@ -55,12 +57,13 @@ public class MainView extends JFrame{
 			setResizable(false);
 			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			setVisible(true);
-			contentPanel.setLayout(cl);
+			contentPanel.setLayout(cardLayout);
 			contentPanel.add(homePanel, "Home");
-			cl.show(contentPanel, "Home");
-			//	add(mainPanel, BorderLayout.WEST);
-			//Left hand side panel which will holds all the buttons needed
+			contentPanel.add(queuePanel, "Queue");
+			contentPanel.add(registrationPanel, "Registration");
+			cardLayout.show(contentPanel, "Home");
 			add(contentPanel, BorderLayout.CENTER);
+		
 		}
 		
 		public void buildMenuPanel() {
@@ -72,16 +75,27 @@ public class MainView extends JFrame{
 			ArrayList<Integer> i = new ArrayList<>();
 			JPanel buttons = new JPanel();
 			JPanel topPanel = new JPanel();
+			JPanel rightPanel = new JPanel();
 			JButton homeButton = new JButton("HOME");
 			JButton registrationButton = new JButton("REGISTER");
 			JButton nextPersonButton = new JButton("NEXT >");
 			JButton showQueueButton = new JButton("SHOW QUEUE");
-			JButton cutOffQueueButton = new JButton("REMOVE PEOPLE");
+			JButton cutOffQueueButton = new JButton("CUT QUEUE");
 			homeButton.setPreferredSize(new Dimension(150, 30));
 			registrationButton.setPreferredSize(new Dimension(150, 30));
 			nextPersonButton.setPreferredSize(new Dimension(150, 30));
 			showQueueButton.setPreferredSize(new Dimension(150, 30));
 			cutOffQueueButton.setPreferredSize(new Dimension(150, 30));
+			homeButton.addActionListener(control);
+			registrationButton.addActionListener(control);
+			nextPersonButton.addActionListener(control);
+			showQueueButton.addActionListener(control);
+			cutOffQueueButton.addActionListener(control);
+			homeButton.setActionCommand("home");
+			registrationButton.setActionCommand("registration");
+			nextPersonButton.setActionCommand("next_person");
+			showQueueButton.setActionCommand("show_queue");
+			cutOffQueueButton.setActionCommand("cut_queue");
 			buttons.setSize(new Dimension(40, 600));
 			buttons.setLayout(grid);
 			gbc.gridy = 0;
@@ -104,10 +118,12 @@ public class MainView extends JFrame{
 			topPanel.setBackground(new Color(0, 0, 128));
 			topPanel.setSize(new Dimension(800, 30));
 			topPanel.add(jl = new JLabel("Immigration System"));
+			rightPanel.setBackground(new Color(0, 0, 128));
 			jl.setFont(font);
 			jl.setForeground(Color.WHITE);
 			add(buttons, BorderLayout.WEST);
 			add(topPanel, BorderLayout.NORTH);
+			add(rightPanel, BorderLayout.EAST);
 			validate();
 			repaint();
 		}

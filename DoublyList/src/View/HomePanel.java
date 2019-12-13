@@ -27,7 +27,7 @@ import Controller.Controller;
 import Model.Node;
 import Model.Priority;
 
-public class HomePanel extends JPanel {
+public class HomePanel extends JPanel{
 
 	private Controller control;
 	private Font font;

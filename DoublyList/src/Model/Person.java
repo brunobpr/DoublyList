@@ -1,5 +1,7 @@
 package Model;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -9,9 +11,10 @@ import java.util.Date;
 public class Person {
 	private String firstName;
 	private String lastName;
-	private String date;
+	private Date date;
 	private String passport;
 	private Priority priority;
+	
 	private String id;
 	//Default constructor
 	public Person() {};
@@ -31,16 +34,18 @@ public class Person {
 	 * @param passport	Passport Number	
 	 * @param priority	Priority level
 	 */
-	public Person(String firstName, String lastName, String string, String passport, Priority priority) {
+	public Person(String firstName, String lastName, String passport, Priority priority) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.date = string;
 		this.passport = passport;
 		this.priority = priority;
+		this.date = getDay();
 		this.id = firstName.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
 	}
 
-	
+	public Date getDay() {
+		return Calendar.getInstance().getTime();
+	}
 	
 	// Getters and Setters 
 	public String getFirstName() {
@@ -52,7 +57,8 @@ public class Person {
 	}
 
 	public String getDate() {
-		return date;
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM 'at' HH:mm");
+		return dateFormatter.format(date);
 	}
 
 	public String getPassport() {
@@ -71,9 +77,6 @@ public class Person {
 		this.lastName = lastName;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
-	}
 
 	public void setPassport(String passport) {
 		this.passport = passport;

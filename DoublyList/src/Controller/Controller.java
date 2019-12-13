@@ -24,10 +24,26 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		switch (event.getActionCommand()) {
+		// Menu Selection Buttons-----------------------------------------
+		case "home":
+			mainView.cardLayout.show(mainView.contentPanel, "Home");
+			break;
+		case "show_queue":
+			mainView.cardLayout.show(mainView.contentPanel, "Queue");
+			mainView.queuePanel.buildQueuePanel(doublyList.getQueueToTable());
+			break;
+		case "registration":
+			mainView.cardLayout.show(mainView.contentPanel, "Registration");
+			mainView.registrationPanel.buildRegistrationPanel();
+			break;
+		case "next_person":
+			doublyList.dequeue();
+			break;
+		// HomePanel Buttons-----------------------------------------
 		case "find_button_pressed":
 			mainView.homePanel.responsePanel(doublyList.checkPositionById(mainView.homePanel.getFindTextField()),
 					doublyList.getPersonById(mainView.homePanel.getFindTextField()));
-					break;
+			break;
 		case "update_info_clicked":
 			String id = mainView.homePanel.getId();
 			String firstName = mainView.homePanel.getFirstNameTextField();
@@ -37,9 +53,17 @@ public class Controller implements ActionListener {
 			doublyList.updateInfoById(id, firstName, lastName, passport, priority);
 			break;
 		case "delete_by_id_clicked":
-				doublyList.deletePerson(mainView.homePanel.getId());
+			doublyList.deletePerson(mainView.homePanel.getId());
 			break;
-			
+		// RegistrationPanel Buttons-----------------------------------------
+		case "new_person_button_clicked":
+			firstName = mainView.registrationPanel.getFirstNameTextField();
+			lastName = mainView.registrationPanel.getLastNameTextField();
+			passport = mainView.registrationPanel.getPassportTextField();
+			priority = mainView.registrationPanel.getPriority();
+			doublyList.newPerson(firstName, lastName, passport, priority);
+			mainView.cardLayout.show(mainView.contentPanel, "Home");
+			break;
 		}
 	}
 
