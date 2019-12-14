@@ -270,7 +270,7 @@ public class DoublyLists {
 	// the queue a person is,
 	// by typing in a unique ID number that is given to the person when they
 	// register in the system.
-	public void updateInfoById(String id, String firstName, String lastName, String passport, Priority priority) {
+	public void updateInfoById(String id, String firstName, String lastName, String passport) {
 		Node n = firstNode;
 		// Looping through all the elements of the queue...
 		for (int i = 0; i <= size - 1; i++) {
@@ -280,7 +280,6 @@ public class DoublyLists {
 				updatingPerson.setFirstName(firstName);
 				updatingPerson.setLastName(lastName);
 				updatingPerson.setPassport(passport);
-				updatingPerson.setPriority(priority);
 				System.out.println("Working " + updatingPerson.getFirstName());
 			}
 			n = n.getNext();
@@ -290,8 +289,7 @@ public class DoublyLists {
 	/**
 	 * The user can delete N number of records from the end of the queue.
 	 * 
-	 * @param cut
-	 *            the number of people that will be removed from the end of the
+	 * @param cut the number of people that will be removed from the end of the
 	 *            queue
 	 */
 	public void cutOff(int cut) {
@@ -299,7 +297,7 @@ public class DoublyLists {
 		while (size > 0 && cut > 0) {
 			size--;
 			cut--;
-			System.out.println("CUTTING OFF : " + lastNode.getPerson().getFirstName());
+			if(lastNode.getPrevious() !=null) lastNode.getPrevious().setNext(null);
 			lastNode = lastNode.getPrevious();
 		}
 	}
@@ -308,8 +306,7 @@ public class DoublyLists {
 	 * A person in any position can be deleted from the queue, connecting the person
 	 * who was in front of them to the person who was behind them.
 	 * 
-	 * @param id
-	 *            unique id of the person
+	 * @param id  unique id of the person
 	 */
 	public void deletePerson(String id) {
 		Node n = firstNode;

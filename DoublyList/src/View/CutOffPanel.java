@@ -41,7 +41,7 @@ public class CutOffPanel extends JPanel {
 		popupPanel.setLayout(new BoxLayout(popupPanel, BoxLayout.PAGE_AXIS));
 		JLabel jl = new JLabel("Current queue size: 1020");
 		numberToCut = new JTextField();
-		popupPanel.add(jl = new JLabel("Current queue size: 1020"));
+		popupPanel.add(jl = new JLabel("Current queue size: " + size));
 		popupPanel.add(jl = new JLabel("How many people to be removed?"));
 		popupPanel.add(numberToCut);
 		ImageIcon icon = new ImageIcon("logo.png");

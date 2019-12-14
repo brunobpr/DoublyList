@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,14 +29,16 @@ public class RegistrationPanel extends JPanel {
 	private JRadioButton highPriorityButton = new JRadioButton("High");
 	private JRadioButton mediumPriorityButton = new JRadioButton("Medium");
 	private JRadioButton lowPriorityButton = new JRadioButton("Low");
-
+	private JLabel errorMessage = new JLabel("");
+	private JLabel nullMessage = new JLabel("Please fill all the fields!");
 	public RegistrationPanel(Controller controller) {
 		control = controller;
 		setLayout(grid);
+		errorMessage.setForeground(Color.RED);
 	}
 
 	public void buildRegistrationPanel() {
-		//resetForm();
+		resetForm();
 		ImageIcon icon = new ImageIcon("logo.png");
 		JLabel jl = new JLabel("Register A New Person");
 		JButton newPersonButton = new JButton("Register");
@@ -84,16 +87,38 @@ public class RegistrationPanel extends JPanel {
 		gbc.gridx = 3;
 		add(lowPriorityButton, gbc);
 		gbc.gridx = 0;
-		gbc.gridy = 5;
 		gbc.gridwidth = 4;
+		gbc.gridy = 7;
 		add(newPersonButton, gbc);
 		lowPriorityButton.setSelected(true);
 	}
+	
+	
+	public void setErrorMessage(String invalidInput) {
+		remove(nullMessage);
+		String errorText = "This is not a valid " + invalidInput;
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		gbc.gridwidth = 4;
+		add(errorMessage, gbc);
+		errorMessage.setText(errorText);
+	}
 
+	public void showNullMessage() {
+		gbc.gridx = 0;
+		gbc.gridwidth = 4;
+		gbc.gridy = 6;
+		add(nullMessage,gbc);
+		nullMessage.setForeground(Color.RED);
+		validate();
+		repaint();
+	}
 	private void resetForm() {
 		firstNameTextField.setText("");
 		lastNameTextField.setText("");
 		passportTextField.setText("");
+		remove(nullMessage);
+		remove(errorMessage);
 	}
 
 	public String getFirstNameTextField() {

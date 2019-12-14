@@ -1,34 +1,23 @@
 package View;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-import javax.swing.border.Border;
-
 import Controller.Controller;
 import Model.Node;
 import Model.Priority;
 
 public class HomePanel extends JPanel{
-
+	private static final long serialVersionUID = 1L;
 	private Controller control;
 	private Font font;
 	private GridBagLayout grid = new GridBagLayout();
@@ -39,9 +28,6 @@ public class HomePanel extends JPanel{
 	private JTextField firstNameTextField = new JTextField(20);
 	private JTextField lastNameTextField = new JTextField(20);
 	private JTextField passportTextField = new JTextField(20);
-	private JRadioButton highPriorityButton = new JRadioButton("High");
-	private JRadioButton mediumPriorityButton = new JRadioButton("Medium");
-	private JRadioButton lowPriorityButton = new JRadioButton("Low");
 	private String id;
 	private int position;
 
@@ -81,7 +67,7 @@ public class HomePanel extends JPanel{
 
 	public void responsePanel(int position, Node node) {
 		if (position < 1) {
-			JOptionPane.showMessageDialog(this, this.getFindTextField() + " does not exist! Try a different ID.",
+			JOptionPane.showMessageDialog(this, "ID " + this.getFindTextField() + " does not exist! Try a different ID.",
 					"Person not found!", JOptionPane.PLAIN_MESSAGE);
 		} else {
 			buildPositionPanel(position, node);
@@ -91,7 +77,8 @@ public class HomePanel extends JPanel{
 
 	private void buildPositionPanel(int position, Node node) {
 		ImageIcon icon = new ImageIcon("logo.png");
-		int update = JOptionPane.showOptionDialog(this, "Person at position: " + position, "Person Found!",
+		String name = node.getPerson().getFirstName();
+		int update = JOptionPane.showOptionDialog(this, name+" is at position: " + position, "Person Found!",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon,
 				new String[] { "Update Info", "Close" }, "default");
 		if (update == JOptionPane.OK_OPTION) {
@@ -103,7 +90,7 @@ public class HomePanel extends JPanel{
 	private void buildUpdateInfoPane(int position, Node node) {
 		this.position = position;
 		ImageIcon icon = new ImageIcon("logo.png");
-		JLabel jl = new JLabel("Person at position: " + position);
+		JLabel jl = new JLabel("Position: " + position);
 		jl.setFont(font = new Font("Verdana", Font.BOLD, 14));
 		String firstName = node.getPerson().getFirstName();
 		String lastName = node.getPerson().getLastName();
@@ -127,21 +114,6 @@ public class HomePanel extends JPanel{
 		myPanel.add(lastNameTextField);
 		myPanel.add(new JLabel("Passport:"));
 		myPanel.add(passportTextField);
-		ButtonGroup group = new ButtonGroup();
-		group.add(highPriorityButton);
-		group.add(mediumPriorityButton);
-		group.add(lowPriorityButton);
-		myPanel.add(new JLabel("Priority:"));
-		myPanel.add(highPriorityButton);
-		myPanel.add(mediumPriorityButton);
-		myPanel.add(lowPriorityButton);
-		if (node.getPerson().getPriority() == Priority.HIGH) {
-			highPriorityButton.setSelected(true);
-		} else if (node.getPerson().getPriority() == Priority.MEDIUM) {
-			mediumPriorityButton.setSelected(true);
-		} else {
-			lowPriorityButton.setSelected(true);
-		}
 		int joptPane = JOptionPane.showOptionDialog(null, myPanel, "Update Information",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon,
 				new String[] { "Save and Close", "Delete", "Close" }, "default");
@@ -167,15 +139,6 @@ public class HomePanel extends JPanel{
 
 	public String getPassportTextField() {
 		return passportTextField.getText();
-	}
-
-	public Priority getPriority() {
-		if(highPriorityButton.isSelected()) {
-		return Priority.HIGH;
-		}else if(mediumPriorityButton.isSelected()) {
-			return Priority.MEDIUM;
-		}
-		return Priority.LOW;
 	}
 	
 	public void setId(String id) {

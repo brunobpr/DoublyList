@@ -34,21 +34,19 @@ public class MainView extends JFrame{
 		private JPanel smallInfoPanel = new JPanel();
 		private Font font;
 		private GridBagLayout grid = new GridBagLayout();
-		private MouseListener mouseListener; 
 		public CardLayout cardLayout = new CardLayout();
 		public HomePanel homePanel;
 		public RegistrationPanel registrationPanel;
 		public QueuePanel queuePanel; 
 		public CutOffPanel cutOffPanel;
-		public MainView() {};
+
 		
-		public MainView(Controller controller, MouseListener mouseListener) {
+		public MainView(Controller controller) {
 				control = controller;
 				homePanel = new HomePanel(controller);
 				registrationPanel = new RegistrationPanel(controller);
 				queuePanel = new QueuePanel(controller);
 				cutOffPanel = new CutOffPanel(controller);
-				this.mouseListener = mouseListener;
 				buildFrame();
 				buildMenuPanel();
 		}
@@ -72,12 +70,6 @@ public class MainView extends JFrame{
 		}
 		
 		public void buildMenuPanel() {
-			/*home
-			register
-			next
-			queue
-			cut*/
-			ArrayList<Integer> i = new ArrayList<>();
 			JPanel buttons = new JPanel();
 			JPanel topPanel = new JPanel();
 			JPanel rightPanel = new JPanel();
@@ -124,7 +116,6 @@ public class MainView extends JFrame{
 			gbc.weighty = 2;
 			buttons.add(smallInfoPanel, gbc);
 			buttons.setBackground(new Color(0, 0, 128));
-			buttons.addMouseListener(mouseListener);
 			topPanel.setBackground(new Color(0, 0, 128));
 			smallInfoPanel.setBackground(new Color(0, 0, 128));
 			topPanel.setSize(new Dimension(800, 30));
@@ -139,7 +130,7 @@ public class MainView extends JFrame{
 			repaint();
 		}
 		
-		public void showSmallInfoPanel(Person person) {
+		public void showSmallInfoPanel(Person person, int size) {
 			if(person != null) {
 			smallInfoPanel.removeAll();
 			smallInfoPanel.add(jl = new JLabel("Next:"));
@@ -147,11 +138,11 @@ public class MainView extends JFrame{
 			smallInfoPanel.add(jl = new JLabel(person.getFirstName() + " " + person.getLastName()));
 			jl.setFont(font = new Font("Arial", Font.BOLD, 14));
 			jl.setForeground(Color.WHITE);
-		/*	smallInfoPanel.add(jl = new JLabel("Queue size:"));
+		smallInfoPanel.add(jl = new JLabel("Queue size:"));
 			jl.setForeground(Color.WHITE);
-			smallInfoPanel.add(jl = new JLabel("103"));
+			smallInfoPanel.add(jl = new JLabel(String.valueOf(size)));
 			jl.setFont(font = new Font("Arial", Font.BOLD, 14));
-			jl.setForeground(Color.WHITE);*/
+			jl.setForeground(Color.WHITE);
 			smallInfoPanel.setLayout(new BoxLayout(smallInfoPanel, BoxLayout.PAGE_AXIS));
 			validate();
 			repaint();

@@ -1,29 +1,25 @@
 package Controller;
 
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JOptionPane;
 
 import Model.*;
 import View.*;
 
-public class Controller implements ActionListener {
+public class Controller extends Validator implements ActionListener {
 	private MainView mainView;
 	private DoublyLists doublyList;
 
 	public Controller(DoublyLists db) {
 		doublyList = db;
-		MouseListener mouseListener = new MouseListener();
-		mainView = new MainView(this, mouseListener);
+		mainView = new MainView(this);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(doublyList.getFirst() != null) mainView.showSmallInfoPanel(doublyList.getFirst().getPerson());
+		if (doublyList.getFirst() != null)
+			mainView.showSmallInfoPanel(doublyList.getFirst().getPerson(), doublyList.size);
 		switch (event.getActionCommand()) {
 		// Menu Selection Buttons-----------------------------------------
 		case "home":
@@ -42,7 +38,8 @@ public class Controller implements ActionListener {
 			break;
 		case "next_person":
 			doublyList.dequeue();
-			if(doublyList.getFirst() != null) mainView.showSmallInfoPanel(doublyList.getFirst().getPerson());
+			if (doublyList.getFirst() != null)
+				mainView.showSmallInfoPanel(doublyList.getFirst().getPerson(), doublyList.size);
 			break;
 		// HomePanel Buttons-----------------------------------------
 		case "find_button_pressed":
@@ -54,21 +51,39 @@ public class Controller implements ActionListener {
 			String firstName = mainView.homePanel.getFirstNameTextField();
 			String lastName = mainView.homePanel.getLastNameTextField();
 			String passport = mainView.homePanel.getPassportTextField();
-			Priority priority = mainView.homePanel.getPriority();
-			doublyList.updateInfoById(id, firstName, lastName, passport, priority);
+			doublyList.updateInfoById(id, firstName, lastName, passport);
 			break;
 		case "delete_by_id_clicked":
 			doublyList.deletePerson(mainView.homePanel.getId());
 			break;
-		// RegistrationPanel Buttons-----------------------------------------
+		// RegistrationPanel Buttons------------------------------------------
 		case "new_person_button_clicked":
 			firstName = mainView.registrationPanel.getFirstNameTextField();
 			lastName = mainView.registrationPanel.getLastNameTextField();
 			passport = mainView.registrationPanel.getPassportTextField();
-			priority = mainView.registrationPanel.getPriority();
-			doublyList.newPerson(firstName, lastName, passport, priority);
-			//mainView.cardLayout.show(mainView.contentPanel, "Home");
+			Priority priority = mainView.registrationPanel.getPriority();
+			// Checking if the user entered all the required inputs, if not a error message
+			// will be displayed
+			if (firstName.isEmpty() || lastName.isEmpty() || passport.isEmpty()) {
+				mainView.registrationPanel.showNullMessage();
+			} else {
+				if (isNotString(firstName))
+					mainView.registrationPanel.setErrorMessage("first name");
+				else {
+					if (isNotString(lastName))
+						mainView.registrationPanel.setErrorMessage("last name");
+					else {
+						if (isNotValidPass(passport))
+							mainView.registrationPanel.setErrorMessage("passport number");
+						else {
+							doublyList.newPerson(firstName, lastName, passport, priority);
+							mainView.cardLayout.show(mainView.contentPanel, "Home");
+						}
+					}
+				}
+			}
 			break;
+		// CutOffPanel Buttons-------------------------------------------------
 		case "remove_from_the_end":
 			doublyList.cutOff(mainView.cutOffPanel.getNumberToCut());
 			break;
