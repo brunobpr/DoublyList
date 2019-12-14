@@ -23,6 +23,7 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		if(doublyList.getFirst() != null) mainView.showSmallInfoPanel(doublyList.getFirst().getPerson());
 		switch (event.getActionCommand()) {
 		// Menu Selection Buttons-----------------------------------------
 		case "home":
@@ -36,8 +37,12 @@ public class Controller implements ActionListener {
 			mainView.cardLayout.show(mainView.contentPanel, "Registration");
 			mainView.registrationPanel.buildRegistrationPanel();
 			break;
+		case "cut_queue":
+			mainView.cutOffPanel.buildCutOffPanel(doublyList.size);
+			break;
 		case "next_person":
 			doublyList.dequeue();
+			if(doublyList.getFirst() != null) mainView.showSmallInfoPanel(doublyList.getFirst().getPerson());
 			break;
 		// HomePanel Buttons-----------------------------------------
 		case "find_button_pressed":
@@ -62,7 +67,10 @@ public class Controller implements ActionListener {
 			passport = mainView.registrationPanel.getPassportTextField();
 			priority = mainView.registrationPanel.getPriority();
 			doublyList.newPerson(firstName, lastName, passport, priority);
-			mainView.cardLayout.show(mainView.contentPanel, "Home");
+			//mainView.cardLayout.show(mainView.contentPanel, "Home");
+			break;
+		case "remove_from_the_end":
+			doublyList.cutOff(mainView.cutOffPanel.getNumberToCut());
 			break;
 		}
 	}

@@ -35,7 +35,7 @@ public class RegistrationPanel extends JPanel {
 	}
 
 	public void buildRegistrationPanel() {
-		resetForm();
+		//resetForm();
 		ImageIcon icon = new ImageIcon("logo.png");
 		JLabel jl = new JLabel("Register A New Person");
 		JButton newPersonButton = new JButton("Register");

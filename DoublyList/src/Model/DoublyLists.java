@@ -54,6 +54,7 @@ public class DoublyLists {
 			// element, but none of them are high priority
 			// For that reason the current Node will be the last high priority
 			if (lastHighPriorityNode == null) {
+				System.out.println("test");
 				firstNode.setPrevious(newNodeHigh);
 				newNodeHigh.setNext(firstNode);
 				firstNode = newNodeHigh;
@@ -294,14 +295,13 @@ public class DoublyLists {
 	 *            queue
 	 */
 	public void cutOff(int cut) {
-			Node n = lastNode;
 		// Loop starting from the end of the queue
-			while(size > 0 && cut > 0) {
-			lastNode = n.getPrevious();
-			lastNode.setNext(null);
+		while (size > 0 && cut > 0) {
 			size--;
 			cut--;
-			}
+			System.out.println("CUTTING OFF : " + lastNode.getPerson().getFirstName());
+			lastNode = lastNode.getPrevious();
+		}
 	}
 
 	/**
@@ -317,21 +317,22 @@ public class DoublyLists {
 		while (n != null) {
 			// Until it reaches the person with the given ID
 			if (n.getPerson().getId().contains(id)) {
-				if (n == firstNode) {
-					n.getNext().setPrevious(null);
-					firstNode = n.getNext();
-					System.out.println(n.getPerson().getFirstName() + " is being deleted from the queue!");
-				} else if (n == lastNode) {
-					n.getPrevious().setNext(null);
-					lastNode = n.getPrevious();
-					System.out.println(n.getPerson().getFirstName() + " is being deleted from the queue!");
+				if (size > 1) {
+					if (n == firstNode) {
+						dequeue();
+					} else if (n == lastNode) {
+						cutOff(1);
+					} else {
+						n.getPrevious().setNext(n.getNext());
+						n.getNext().setPrevious(n.getPrevious());
+						size--;
+					}
 				} else {
-					n.getPrevious().setNext(n.getNext());
-					n.getNext().setPrevious(n.getPrevious());
-					System.out.println(n.getPerson().getFirstName() + " is being deleted from the queue!");
+					firstNode = null;
+					lastNode = null;
+					size--;
 				}
-				size--;
-				return;
+				break;
 			} else {
 				n = n.getNext();
 			}
@@ -345,16 +346,23 @@ public class DoublyLists {
 	public Node dequeue() {
 		if (size != 0) {
 			Node nodeOut = firstNode;
-			if (firstNode.getNext() == null)
+			if (firstNode == lastNode)
 				firstNode = null;
+			if(firstNode == lastHighPriorityNode) lastHighPriorityNode = null;
+		    if(firstNode == lastMediumPriorityNode) lastMediumPriorityNode = null;
 			else {
 				firstNode.getNext().setPrevious(null);
 				firstNode = firstNode.getNext();
+				
 			}
 			size--;
 			return nodeOut;
 		}
 		return null;
+	}
+
+	public Node getFirst () {
+		return firstNode;
 	}
 
 }

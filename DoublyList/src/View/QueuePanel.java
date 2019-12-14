@@ -23,10 +23,7 @@ public class QueuePanel extends JPanel {
 
 	public void buildQueuePanel(String[][] queue) {
 		removeAll();
-		JLabel jl = new JLabel("Current Immigration Queue");
-		jl.setFont(font = new Font("Verdana", Font.BOLD, 21));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		add(jl, BorderLayout.NORTH);
 		String[] columnNames = {"Name", "ID","Passport", "Arrival Date","Priority" };
 		JTable table = new JTable(queue, columnNames);
 		// adding it to JScrollPane

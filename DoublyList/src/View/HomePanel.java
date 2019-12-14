@@ -73,7 +73,6 @@ public class HomePanel extends JPanel{
 		add(topPanel, gbc);
 		gbc.weighty = 200;
 		topPanel.setSize(new Dimension(40, 60));
-
 	}
 
 	public String getFindTextField() {
@@ -98,6 +97,7 @@ public class HomePanel extends JPanel{
 		if (update == JOptionPane.OK_OPTION) {
 			buildUpdateInfoPane(position, node);
 		}
+		
 	}
 
 	private void buildUpdateInfoPane(int position, Node node) {

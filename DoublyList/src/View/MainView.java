@@ -23,14 +23,15 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import Controller.Controller;
+import Model.Person;
 
 public class MainView extends JFrame{
 		private Controller control;
-		private JTextField search = new JTextField(20);
 		private JLabel jl = new JLabel();
 		private ImageIcon icon = new ImageIcon();
 		private GridBagConstraints gbc = new GridBagConstraints();
 		public JPanel contentPanel = new JPanel();
+		private JPanel smallInfoPanel = new JPanel();
 		private Font font;
 		private GridBagLayout grid = new GridBagLayout();
 		private MouseListener mouseListener; 
@@ -38,6 +39,7 @@ public class MainView extends JFrame{
 		public HomePanel homePanel;
 		public RegistrationPanel registrationPanel;
 		public QueuePanel queuePanel; 
+		public CutOffPanel cutOffPanel;
 		public MainView() {};
 		
 		public MainView(Controller controller, MouseListener mouseListener) {
@@ -45,6 +47,7 @@ public class MainView extends JFrame{
 				homePanel = new HomePanel(controller);
 				registrationPanel = new RegistrationPanel(controller);
 				queuePanel = new QueuePanel(controller);
+				cutOffPanel = new CutOffPanel(controller);
 				this.mouseListener = mouseListener;
 				buildFrame();
 				buildMenuPanel();
@@ -61,6 +64,8 @@ public class MainView extends JFrame{
 			contentPanel.add(homePanel, "Home");
 			contentPanel.add(queuePanel, "Queue");
 			contentPanel.add(registrationPanel, "Registration");
+			contentPanel.add(cutOffPanel, "CutOff");
+			contentPanel.setBackground(new Color(102, 204, 255));
 			cardLayout.show(contentPanel, "Home");
 			add(contentPanel, BorderLayout.CENTER);
 		
@@ -101,9 +106,11 @@ public class MainView extends JFrame{
 			gbc.gridy = 0;
 			gbc.gridx = 0;	
 			gbc.ipady = 50;
+			gbc.weighty = 1;
 			buttons.add(jl = new JLabel(icon = new ImageIcon("logo.png")), gbc);
 			gbc.ipady = 20;
 			gbc.gridy = 1;
+			gbc.weighty = 0;
 			buttons.add(homeButton, gbc);
 			gbc.gridy = 2;
 			buttons.add(registrationButton, gbc);
@@ -113,9 +120,13 @@ public class MainView extends JFrame{
 			buttons.add(cutOffQueueButton, gbc);
 			gbc.gridy = 5;
 			buttons.add(nextPersonButton, gbc);
+			gbc.gridy = 6;
+			gbc.weighty = 2;
+			buttons.add(smallInfoPanel, gbc);
 			buttons.setBackground(new Color(0, 0, 128));
 			buttons.addMouseListener(mouseListener);
 			topPanel.setBackground(new Color(0, 0, 128));
+			smallInfoPanel.setBackground(new Color(0, 0, 128));
 			topPanel.setSize(new Dimension(800, 30));
 			topPanel.add(jl = new JLabel("Immigration System"));
 			rightPanel.setBackground(new Color(0, 0, 128));
@@ -127,4 +138,30 @@ public class MainView extends JFrame{
 			validate();
 			repaint();
 		}
+		
+		public void showSmallInfoPanel(Person person) {
+			if(person != null) {
+			smallInfoPanel.removeAll();
+			smallInfoPanel.add(jl = new JLabel("Next:"));
+			jl.setForeground(Color.WHITE);
+			smallInfoPanel.add(jl = new JLabel(person.getFirstName() + " " + person.getLastName()));
+			jl.setFont(font = new Font("Arial", Font.BOLD, 14));
+			jl.setForeground(Color.WHITE);
+		/*	smallInfoPanel.add(jl = new JLabel("Queue size:"));
+			jl.setForeground(Color.WHITE);
+			smallInfoPanel.add(jl = new JLabel("103"));
+			jl.setFont(font = new Font("Arial", Font.BOLD, 14));
+			jl.setForeground(Color.WHITE);*/
+			smallInfoPanel.setLayout(new BoxLayout(smallInfoPanel, BoxLayout.PAGE_AXIS));
+			validate();
+			repaint();
+			}
+		}
+
+		public void refresh() {
+		 this.validate();
+		 this.repaint();
+		}
+		
+		
 }
