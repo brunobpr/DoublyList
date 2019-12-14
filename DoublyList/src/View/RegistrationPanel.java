@@ -34,7 +34,6 @@ public class RegistrationPanel extends JPanel {
 	public RegistrationPanel(Controller controller) {
 		control = controller;
 		setLayout(grid);
-		errorMessage.setForeground(Color.RED);
 	}
 
 	public void buildRegistrationPanel() {
@@ -102,6 +101,7 @@ public class RegistrationPanel extends JPanel {
 		gbc.gridwidth = 4;
 		add(errorMessage, gbc);
 		errorMessage.setText(errorText);
+		errorMessage.setForeground(Color.RED);
 	}
 
 	public void showNullMessage() {

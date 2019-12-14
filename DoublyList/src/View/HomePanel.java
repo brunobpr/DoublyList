@@ -1,4 +1,6 @@
 package View;
+
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -16,7 +18,7 @@ import Controller.Controller;
 import Model.Node;
 import Model.Priority;
 
-public class HomePanel extends JPanel{
+public class HomePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Controller control;
 	private Font font;
@@ -24,11 +26,12 @@ public class HomePanel extends JPanel{
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private JTextField findTextField = new JTextField(20);
 	private JPanel contentPanel = new JPanel();
-	private Node personFound;
+	private JPanel popupPanel = new JPanel();
 	private JTextField firstNameTextField = new JTextField(20);
 	private JTextField lastNameTextField = new JTextField(20);
 	private JTextField passportTextField = new JTextField(20);
 	private String id;
+	private JLabel jl = new JLabel();
 	private int position;
 
 	public HomePanel(Controller controller) {
@@ -65,33 +68,34 @@ public class HomePanel extends JPanel{
 		return findTextField.getText();
 	}
 
-	public void responsePanel(int position, Node node) {
+	public void responsePanel(int position, Node node, String errorMessage) {
 		if (position < 1) {
-			JOptionPane.showMessageDialog(this, "ID " + this.getFindTextField() + " does not exist! Try a different ID.",
-					"Person not found!", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this,
+					"ID " + this.getFindTextField() + " does not exist! Try a different ID.", "Person not found!",
+					JOptionPane.PLAIN_MESSAGE);
 		} else {
-			buildPositionPanel(position, node);
+			buildPositionPanel(position, node, errorMessage);
 		}
 
 	}
 
-	private void buildPositionPanel(int position, Node node) {
+	private void buildPositionPanel(int position, Node node, String errorMessage) {
 		ImageIcon icon = new ImageIcon("logo.png");
 		String name = node.getPerson().getFirstName();
-		int update = JOptionPane.showOptionDialog(this, name+" is at position: " + position, "Person Found!",
+		int update = JOptionPane.showOptionDialog(this, name + " is at position: " + position, "Person Found!",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon,
 				new String[] { "Update Info", "Close" }, "default");
 		if (update == JOptionPane.OK_OPTION) {
-			buildUpdateInfoPane(position, node);
+			buildUpdateInfoPane(position, node, errorMessage);
 		}
-		
+
 	}
 
-	private void buildUpdateInfoPane(int position, Node node) {
+	public void buildUpdateInfoPane(int position, Node node, String errorText) {
+		popupPanel.removeAll();
 		this.position = position;
+		JLabel errorMessage = new JLabel("");
 		ImageIcon icon = new ImageIcon("logo.png");
-		JLabel jl = new JLabel("Position: " + position);
-		jl.setFont(font = new Font("Verdana", Font.BOLD, 14));
 		String firstName = node.getPerson().getFirstName();
 		String lastName = node.getPerson().getLastName();
 		String passport = node.getPerson().getPassport();
@@ -101,20 +105,23 @@ public class HomePanel extends JPanel{
 		firstNameTextField.setText(firstName);
 		lastNameTextField.setText(lastName);
 		passportTextField.setText(passport);
-		JPanel myPanel = new JPanel();
 		save.addActionListener(control);
 		save.setActionCommand("update_info_clicked");
 		delete.addActionListener(control);
 		delete.setActionCommand("delete_by_id_clicked");
-		myPanel.add(jl);
-		myPanel.add(new JLabel("First name:"));
-		myPanel.add(firstNameTextField);
-		myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.PAGE_AXIS));// a spacer
-		myPanel.add(new JLabel("Last name:"));
-		myPanel.add(lastNameTextField);
-		myPanel.add(new JLabel("Passport:"));
-		myPanel.add(passportTextField);
-		int joptPane = JOptionPane.showOptionDialog(null, myPanel, "Update Information",
+		popupPanel.add(jl = new JLabel("Position: " + position));
+		jl.setFont(font = new Font("Verdana", Font.BOLD, 14));
+		popupPanel.add(jl = new JLabel("First name:"));
+		popupPanel.add(firstNameTextField);
+		popupPanel.setLayout(new BoxLayout(popupPanel, BoxLayout.PAGE_AXIS));// a spacer
+		popupPanel.add(jl = new JLabel("Last name:"));
+		popupPanel.add(lastNameTextField);
+		popupPanel.add(jl =new JLabel("Passport:"));
+		popupPanel.add(passportTextField);
+		if(errorText != null) errorMessage = new JLabel(errorText);
+		errorMessage.setForeground(Color.RED);
+		popupPanel.add(errorMessage);
+		int joptPane = JOptionPane.showOptionDialog(null, popupPanel, "Update Information",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon,
 				new String[] { "Save and Close", "Delete", "Close" }, "default");
 		if (joptPane == 0) {
@@ -122,7 +129,7 @@ public class HomePanel extends JPanel{
 		} else if (joptPane == 1) {
 			delete.doClick();
 		}
-		
+
 	}
 
 	public String getId() {
@@ -140,7 +147,7 @@ public class HomePanel extends JPanel{
 	public String getPassportTextField() {
 		return passportTextField.getText();
 	}
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}

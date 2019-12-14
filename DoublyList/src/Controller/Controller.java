@@ -44,14 +44,35 @@ public class Controller extends Validator implements ActionListener {
 		// HomePanel Buttons-----------------------------------------
 		case "find_button_pressed":
 			mainView.homePanel.responsePanel(doublyList.checkPositionById(mainView.homePanel.getFindTextField()),
-					doublyList.getPersonById(mainView.homePanel.getFindTextField()));
+					doublyList.getPersonById(mainView.homePanel.getFindTextField()), null);
 			break;
 		case "update_info_clicked":
 			String id = mainView.homePanel.getId();
 			String firstName = mainView.homePanel.getFirstNameTextField();
 			String lastName = mainView.homePanel.getLastNameTextField();
 			String passport = mainView.homePanel.getPassportTextField();
-			doublyList.updateInfoById(id, firstName, lastName, passport);
+			if (firstName.isEmpty() || lastName.isEmpty() || passport.isEmpty()) {
+				mainView.homePanel.buildUpdateInfoPane(doublyList.checkPositionById(id), doublyList.getPersonById(id),
+						"Please fill all the fields!");
+			} else {
+				if (isNotString(firstName))
+					mainView.homePanel.buildUpdateInfoPane(doublyList.checkPositionById(id), doublyList.getPersonById(id),
+							"Not valid first name. Only letters");
+				else {
+					if (isNotString(lastName))
+						mainView.homePanel.buildUpdateInfoPane(doublyList.checkPositionById(id), doublyList.getPersonById(id),
+								"Not valid last name. Only letters");
+					else {
+						if (isNotValidPass(passport))
+							mainView.homePanel.buildUpdateInfoPane(doublyList.checkPositionById(id), doublyList.getPersonById(id),
+									"Not valid passport. Letters and numbers");
+						else {
+							doublyList.updateInfoById(id, firstName, lastName, passport);
+							mainView.cardLayout.show(mainView.contentPanel, "Home");
+						}
+					}
+				}
+			}
 			break;
 		case "delete_by_id_clicked":
 			doublyList.deletePerson(mainView.homePanel.getId());
