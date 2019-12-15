@@ -27,8 +27,8 @@ public class DoublyLists {
 	 * @param person
 	 *            is object of type person which holds important information
 	 */
-	public void newPerson(String firstName, String lastName, String passport, Priority priority) {
-		Person person = new Person(firstName, lastName, passport, priority);
+	public void newPerson(String firstName, String lastName, String passport, String date, Priority priority) {
+		Person person = new Person(firstName, lastName, passport, date, priority);
 		Node node = new Node(person);
 		if (person.getPriority() == Priority.HIGH) {
 			addHighPriorityPerson(node);
@@ -54,7 +54,6 @@ public class DoublyLists {
 			// element, but none of them are high priority
 			// For that reason the current Node will be the last high priority
 			if (lastHighPriorityNode == null) {
-				System.out.println("test");
 				firstNode.setPrevious(newNodeHigh);
 				newNodeHigh.setNext(firstNode);
 				firstNode = newNodeHigh;
@@ -280,7 +279,6 @@ public class DoublyLists {
 				updatingPerson.setFirstName(firstName);
 				updatingPerson.setLastName(lastName);
 				updatingPerson.setPassport(passport);
-				System.out.println("Working " + updatingPerson.getFirstName());
 			}
 			n = n.getNext();
 		}

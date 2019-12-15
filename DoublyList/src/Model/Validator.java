@@ -2,8 +2,8 @@ package Model;
 
 public class Validator {
   
-	protected boolean isNotString(String input) {
-		if(input.matches("[a-zA-Z]+")) {
+	protected boolean notOnlyLetters(String input) {
+		if(input.matches("[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ']+")) {
 			//It is a string without number
 			return false;
 		}

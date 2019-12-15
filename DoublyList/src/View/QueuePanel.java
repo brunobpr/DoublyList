@@ -21,6 +21,8 @@ public class QueuePanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		String[] columnNames = {"Name", "ID","Passport", "Arrival Date","Priority" };
 		JTable table = new JTable(queue, columnNames);
+		table.getColumn("Name").setPreferredWidth(175);
+		table.getColumn("Priority").setPreferredWidth(30);
 		// adding it to JScrollPane
 		JScrollPane sp = new JScrollPane(table);
 		add(sp);

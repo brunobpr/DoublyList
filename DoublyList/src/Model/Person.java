@@ -11,7 +11,7 @@ import java.util.Date;
 public class Person {
 	private String firstName;
 	private String lastName;
-	private Date date;
+	private String date;
 	private String passport;
 	private Priority priority;
 	
@@ -23,7 +23,7 @@ public class Person {
 		//
 		this.firstName = name;
 		this.priority = priority;
-		this.id = name.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
+		this.id = this.toString().substring(13).toUpperCase();
 	}
 	
 	//New instance of a person 
@@ -34,17 +34,13 @@ public class Person {
 	 * @param passport	Passport Number	
 	 * @param priority	Priority level
 	 */
-	public Person(String firstName, String lastName, String passport, Priority priority) {
+	public Person(String firstName, String lastName, String passport, String date, Priority priority) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.passport = passport;
 		this.priority = priority;
-		this.date = getDay();
+		this.date = date;
 		this.id = firstName.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
-	}
-
-	public Date getDay() {
-		return Calendar.getInstance().getTime();
 	}
 	
 	// Getters and Setters 
@@ -57,8 +53,7 @@ public class Person {
 	}
 
 	public String getDate() {
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM 'at' HH:mm");
-		return dateFormatter.format(date);
+		return date;
 	}
 
 	public String getPassport() {
