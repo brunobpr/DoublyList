@@ -87,6 +87,10 @@ public class Person {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	} 
 	
 	

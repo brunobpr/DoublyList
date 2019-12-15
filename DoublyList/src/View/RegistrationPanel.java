@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -23,13 +24,16 @@ public class RegistrationPanel extends JPanel {
 	private Font font;
 	private GridBagLayout grid = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
-	private JTextField firstNameTextField = new JTextField(20);
-	private JTextField lastNameTextField = new JTextField(20);
-	private JTextField passportTextField = new JTextField(20);
+	private JTextField firstNameTextField = new JTextField(25);
+	private JTextField lastNameTextField = new JTextField(25);
+	private JTextField passportTextField = new JTextField(25);
 	private JRadioButton highPriorityButton = new JRadioButton("High");
 	private JRadioButton mediumPriorityButton = new JRadioButton("Medium");
 	private JRadioButton lowPriorityButton = new JRadioButton("Low");
 	private JLabel errorMessage = new JLabel("");
+	private JComboBox<String> dayComboBox;
+	private JComboBox<String> monthComboBox;
+	private JComboBox<String> yearComboBox;
 	private JLabel nullMessage = new JLabel("Please fill all the fields!");
 	public RegistrationPanel(Controller controller) {
 		control = controller;
@@ -48,7 +52,7 @@ public class RegistrationPanel extends JPanel {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.ipady = 20;
-		gbc.gridwidth = 4;
+		gbc.gridwidth = 6;
 		add(jl, gbc);
 		gbc.gridwidth = 1;
 		gbc.gridx = 0;
@@ -71,12 +75,35 @@ public class RegistrationPanel extends JPanel {
 		gbc.gridx = 1;
 		gbc.gridwidth = 3;
 		add(passportTextField, gbc);
+		String[] day = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
+				"16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "Day"};
+		String[] month = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "Month"}; 
+		String[] year = {"05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
+				"16", "17", "18", "19", "Year"};
+		//Create the combo box, select item at index 4.
+		//Indices start at 0, so 4 specifies the pig.
+		dayComboBox = new JComboBox<String>(day);
+		dayComboBox.setSelectedIndex(31);
+		monthComboBox = new JComboBox<String>(month);
+		monthComboBox.setSelectedIndex(12);
+		yearComboBox = new JComboBox<String>(year);
+		yearComboBox.setSelectedIndex(15);
+		gbc.gridy = 4;
+		gbc.gridx = 0;
+		gbc.gridwidth = 1;
+		add(new JLabel("Arrival date:"), gbc);
+		gbc.gridx = 1;
+		add(dayComboBox, gbc);
+		gbc.gridx = 2;
+		add(monthComboBox, gbc);
+		gbc.gridx = 3;
+		add(yearComboBox, gbc);
 		ButtonGroup group = new ButtonGroup();
 		group.add(highPriorityButton);
 		group.add(mediumPriorityButton);
 		group.add(lowPriorityButton);
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		gbc.gridwidth = 1;
 		add(new JLabel("Priority:"), gbc);
 		gbc.gridx = 1;
@@ -87,7 +114,7 @@ public class RegistrationPanel extends JPanel {
 		add(lowPriorityButton, gbc);
 		gbc.gridx = 0;
 		gbc.gridwidth = 4;
-		gbc.gridy = 7;
+		gbc.gridy = 8;
 		add(newPersonButton, gbc);
 		lowPriorityButton.setSelected(true);
 	}
@@ -97,7 +124,7 @@ public class RegistrationPanel extends JPanel {
 		remove(nullMessage);
 		String errorText = "This is not a valid " + invalidInput;
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 6;
 		gbc.gridwidth = 4;
 		add(errorMessage, gbc);
 		errorMessage.setText(errorText);
@@ -107,7 +134,7 @@ public class RegistrationPanel extends JPanel {
 	public void showNullMessage() {
 		gbc.gridx = 0;
 		gbc.gridwidth = 4;
-		gbc.gridy = 6;
+		gbc.gridy = 7;
 		add(nullMessage,gbc);
 		nullMessage.setForeground(Color.RED);
 		validate();
@@ -140,6 +167,11 @@ public class RegistrationPanel extends JPanel {
 			return Priority.MEDIUM;
 		}
 		return Priority.LOW;
+	}
+	
+	public String getDate() {
+		String date = String.valueOf(dayComboBox.getSelectedItem() + "/" +monthComboBox.getSelectedItem() + "/"+yearComboBox.getSelectedItem());
+		return date;
 	}
 	
 }

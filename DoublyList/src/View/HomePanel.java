@@ -30,6 +30,7 @@ public class HomePanel extends JPanel {
 	private JTextField firstNameTextField = new JTextField(20);
 	private JTextField lastNameTextField = new JTextField(20);
 	private JTextField passportTextField = new JTextField(20);
+	private JTextField dateField = new JTextField(20);
 	private String id;
 	private JLabel jl = new JLabel();
 	private int position;
@@ -99,12 +100,14 @@ public class HomePanel extends JPanel {
 		String firstName = node.getPerson().getFirstName();
 		String lastName = node.getPerson().getLastName();
 		String passport = node.getPerson().getPassport();
+		String date = node.getPerson().getDate();
 		id = node.getPerson().getId();
 		JButton save = new JButton();
 		JButton delete = new JButton();
 		firstNameTextField.setText(firstName);
 		lastNameTextField.setText(lastName);
 		passportTextField.setText(passport);
+		dateField.setText(date);
 		save.addActionListener(control);
 		save.setActionCommand("update_info_clicked");
 		delete.addActionListener(control);
@@ -118,6 +121,8 @@ public class HomePanel extends JPanel {
 		popupPanel.add(lastNameTextField);
 		popupPanel.add(jl =new JLabel("Passport:"));
 		popupPanel.add(passportTextField);
+		popupPanel.add(jl =new JLabel("Date of arrival:"));
+		popupPanel.add(dateField);
 		if(errorText != null) errorMessage = new JLabel(errorText);
 		errorMessage.setForeground(Color.RED);
 		popupPanel.add(errorMessage);
@@ -147,6 +152,11 @@ public class HomePanel extends JPanel {
 	public String getPassportTextField() {
 		return passportTextField.getText();
 	}
+
+	public String getDateField() {
+		return dateField.getText();
+	}
+
 
 	public void setId(String id) {
 		this.id = id;

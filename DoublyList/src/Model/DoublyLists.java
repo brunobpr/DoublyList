@@ -269,7 +269,7 @@ public class DoublyLists {
 	// the queue a person is,
 	// by typing in a unique ID number that is given to the person when they
 	// register in the system.
-	public void updateInfoById(String id, String firstName, String lastName, String passport) {
+	public void updateInfoById(String id, String firstName, String lastName, String date, String passport) {
 		Node n = firstNode;
 		// Looping through all the elements of the queue...
 		for (int i = 0; i <= size - 1; i++) {
@@ -279,6 +279,7 @@ public class DoublyLists {
 				updatingPerson.setFirstName(firstName);
 				updatingPerson.setLastName(lastName);
 				updatingPerson.setPassport(passport);
+				updatingPerson.setDate(date);
 			}
 			n = n.getNext();
 		}
