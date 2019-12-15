@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * 
  */
 
-public class DoublyLists {
+public class DoublyLists implements CAInterface {
 	public Node firstNode;
 	private Node lastNode;
 	private Node lastHighPriorityNode;
@@ -24,9 +24,18 @@ public class DoublyLists {
 	}
 
 	/**
-	 * @param person
-	 *            is object of type person which holds important information
+	 * @param firstName
+	 *            First name
+	 * @param lastName
+	 *            last name
+	 * @param passport
+	 *            passport
+	 * @param date
+	 *            date of arrival
+	 * @param priority
+	 *            priority level
 	 */
+	@Override
 	public void newPerson(String firstName, String lastName, String passport, String date, Priority priority) {
 		Person person = new Person(firstName, lastName, passport, date, priority);
 		Node node = new Node(person);
@@ -40,6 +49,11 @@ public class DoublyLists {
 
 	}
 
+	/**
+	 * @param newNodeHigh
+	 *            Node of High Priority being added to the queue
+	 */
+	@Override
 	public void addHighPriorityPerson(Node newNodeHigh) {
 		// If the list is empty, the current node will be the first, last and also last
 		// high priority
@@ -83,26 +97,11 @@ public class DoublyLists {
 		size++;
 	}
 
-	public void addMed(Node newNodeMedium) {
-
-		if (size == 0) {
-			firstNode = newNodeMedium;
-			lastNode = newNodeMedium;
-			lastMediumPriorityNode = newNodeMedium;
-		} else {
-			Node temporary = firstNode;
-			if (lastMediumPriorityNode != null) {
-				while (temporary != lastMediumPriorityNode) {
-					newNodeMedium.setNext(lastMediumPriorityNode.getNext());
-					newNodeMedium.setPrevious(lastMediumPriorityNode);
-					lastMediumPriorityNode = newNodeMedium;
-				}
-			} else {
-
-			}
-		}
-	}
-
+	/**
+	 * @param newNodeMedium
+	 *            Node of Medium Priority being added to the queue
+	 */
+	@Override
 	public void addMediumPriorityPerson(Node newNodeMedium) {
 		// If the list is empty, the current node will be the first, last and also the
 		// last medium priority
@@ -179,12 +178,10 @@ public class DoublyLists {
 	}
 
 	/**
-	 * When a low priority person has been added to the queue, they must go straight
-	 * to the end of it.
-	 * 
 	 * @param newNodeLow
-	 *            Node of Low Priority Status
+	 *            Node of Low Priority being added to the queue
 	 */
+	@Override
 	public void addLowPriorityPerson(Node newNodeLow) {
 		// If there isn't any element in the queue, it means that the current node will
 		// be the first and the last in the queue
@@ -204,37 +201,13 @@ public class DoublyLists {
 	}
 
 	/**
-	 * @return getAll returns a ArrayList of all elements of the doubly list
-	 */
-	public String[][] getQueueToTable() {
-		String[][] queue = new String[this.size][5];
-		if (size == 0) {
-			return queue;
-		} else {
-			Node node = firstNode;
-			int position = 0;
-			do {
-				queue[position][0] = String.valueOf(position + 1) + " - " + node.getPerson().getFirstName() + " "
-						+ node.getPerson().getLastName();
-				queue[position][1] = node.getPerson().getId();
-				queue[position][2] = node.getPerson().getPassport();
-				queue[position][4] = String.valueOf(node.getPerson().getPriority());
-				queue[position][3] = node.getPerson().getDate();
-				position++;
-				node = node.getNext();
-			} while (node != null);
-			return queue;
-		}
-	}
-
-	/**
 	 * The user can check to see what position in the queue a person currently is.
 	 * 
 	 * @param input
 	 *            input entered by the user on the HomePanel class at
-	 *            view/HomePanel.java
 	 * @return the position of the person in the queue
 	 */
+	@Override
 	public int checkPositionById(String input) {
 		int position = 1;
 		Node n = firstNode;
@@ -250,25 +223,21 @@ public class DoublyLists {
 		return -1;
 	}
 
-	public Node getPersonById(String input) {
-		int position = 1;
-		Node n = firstNode;
-		// Looping through all the elements of the queue...
-		for (int i = 0; i <= size - 1; i++) {
-			// ...until it reaches the person with the given ID
-			if (n.getPerson().getId().equals(input)) {
-				return n;
-			} // if not, go for the next element
-			n = n.getNext();
-			position++;
-		}
-		return null;
-	}
-
-	// At any time, the staff member should have the ability to see what position in
-	// the queue a person is,
-	// by typing in a unique ID number that is given to the person when they
-	// register in the system.
+	/**
+	 * @param id
+	 *            unique id of the person
+	 * @param firstName
+	 *            First name
+	 * @param lastName
+	 *            last name
+	 * @param passport
+	 *            passport
+	 * @param date
+	 *            date of arrival
+	 * @param priority
+	 *            priority level
+	 */
+	@Override
 	public void updateInfoById(String id, String firstName, String lastName, String date, String passport) {
 		Node n = firstNode;
 		// Looping through all the elements of the queue...
@@ -286,27 +255,27 @@ public class DoublyLists {
 	}
 
 	/**
-	 * The user can delete N number of records from the end of the queue.
-	 * 
-	 * @param cut the number of people that will be removed from the end of the
+	 * @param cut
+	 *            the number of people that will be removed from the end of the
 	 *            queue
 	 */
+	@Override
 	public void cutOff(int cut) {
 		// Loop starting from the end of the queue
 		while (size > 0 && cut > 0) {
 			size--;
 			cut--;
-			if(lastNode.getPrevious() !=null) lastNode.getPrevious().setNext(null);
+			if (lastNode.getPrevious() != null)
+				lastNode.getPrevious().setNext(null);
 			lastNode = lastNode.getPrevious();
 		}
 	}
 
 	/**
-	 * A person in any position can be deleted from the queue, connecting the person
-	 * who was in front of them to the person who was behind them.
-	 * 
-	 * @param id  unique id of the person
+	 * @param id
+	 *            unique id of the person
 	 */
+	@Override
 	public void deletePerson(String id) {
 		Node n = firstNode;
 		// Loop through all elements of the queue...
@@ -336,20 +305,21 @@ public class DoublyLists {
 	}
 
 	/**
-	 * The user can remove the first person from the queue when this has been taken
-	 * care of
+	 * @return the first node of the queue that its been removed
 	 */
 	public Node dequeue() {
 		if (size != 0) {
 			Node nodeOut = firstNode;
 			if (firstNode == lastNode)
 				firstNode = null;
-			if(firstNode == lastHighPriorityNode) lastHighPriorityNode = null;
-		    if(firstNode == lastMediumPriorityNode) lastMediumPriorityNode = null;
+			if (firstNode == lastHighPriorityNode)
+				lastHighPriorityNode = null;
+			if (firstNode == lastMediumPriorityNode)
+				lastMediumPriorityNode = null;
 			else {
 				firstNode.getNext().setPrevious(null);
 				firstNode = firstNode.getNext();
-				
+
 			}
 			size--;
 			return nodeOut;
@@ -357,7 +327,54 @@ public class DoublyLists {
 		return null;
 	}
 
-	public Node getFirst () {
+	/**
+	 * @return getAll returns a 2D array of all elements of the doubly list
+	 */
+	public String[][] getQueueToTable() {
+		String[][] queue = new String[this.size][5];
+		if (size == 0) {
+			return queue;
+		} else {
+			Node node = firstNode;
+			int position = 0;
+			do {
+				queue[position][0] = String.valueOf(position + 1) + " - " + node.getPerson().getFirstName() + " "
+						+ node.getPerson().getLastName();
+				queue[position][1] = node.getPerson().getId();
+				queue[position][2] = node.getPerson().getPassport();
+				queue[position][4] = String.valueOf(node.getPerson().getPriority());
+				queue[position][3] = node.getPerson().getDate();
+				position++;
+				node = node.getNext();
+			} while (node != null);
+			return queue;
+		}
+	}
+
+	/**
+	 * @param input
+	 *            unique ID entered on the HomePanel
+	 * @return the node with the person found
+	 */
+	public Node getPersonById(String input) {
+		int position = 1;
+		Node n = firstNode;
+		// Looping through all the elements of the queue...
+		for (int i = 0; i <= size - 1; i++) {
+			// ...until it reaches the person with the given ID
+			if (n.getPerson().getId().equals(input)) {
+				return n;
+			} // if not, go for the next element
+			n = n.getNext();
+			position++;
+		}
+		return null;
+	}
+
+	/**
+	 * @return the first node of the queue
+	 */
+	public Node getFirst() {
 		return firstNode;
 	}
 

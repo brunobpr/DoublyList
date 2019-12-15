@@ -41,6 +41,8 @@ public class HomePanel extends JPanel {
 		setLayout(grid);
 	}
 
+	// This panel gives the option to search for a person by entering their ID
+	// After clicking the button "FIND", a JOptionPane opens up.
 	private void buildHomePanel() {
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(grid);
@@ -48,7 +50,7 @@ public class HomePanel extends JPanel {
 		jl.setFont(font = new Font("Verdana", Font.BOLD, 18));
 		JButton findButton = new JButton("FIND");
 		findButton.addActionListener(control);
-		findButton.setActionCommand("find_button_pressed");
+		findButton.setActionCommand("find_button_clicked");
 		gbc.gridy = 0;
 		gbc.gridx = 0;
 		gbc.gridwidth = 2;
@@ -65,21 +67,31 @@ public class HomePanel extends JPanel {
 		topPanel.setSize(new Dimension(40, 60));
 	}
 
-	public String getFindTextField() {
-		return findTextField.getText();
-	}
-
+	/**
+	 * This is the panel that opens up when the button "FIND" is clicked
+	 * 
+	 * @param position
+	 *            position returned from DoublyList.checkPositionById()
+	 * @param node
+	 *            the 'person'
+	 * @param errorMessage
+	 *            An error message to be displayed if any"
+	 */
 	public void responsePanel(int position, Node node, String errorMessage) {
+		// First option is that there is not a person with the ID given
 		if (position < 1) {
 			JOptionPane.showMessageDialog(this,
 					"ID " + this.getFindTextField() + " does not exist! Try a different ID.", "Person not found!",
 					JOptionPane.PLAIN_MESSAGE);
 		} else {
+			// The second option, there is a person with the ID
 			buildPositionPanel(position, node, errorMessage);
 		}
 
 	}
 
+	// In case the person is found, the user will be given the option to UPDATE them
+	// This panel will also display the position.
 	private void buildPositionPanel(int position, Node node, String errorMessage) {
 		ImageIcon icon = new ImageIcon("logo.png");
 		String name = node.getPerson().getFirstName();
@@ -92,6 +104,11 @@ public class HomePanel extends JPanel {
 
 	}
 
+	// If the user needs to UPDATE the person, a new panel will open up
+	// In this new panel, it is possible to UPDATE or REMOVE the person.
+	// It sets the current information into textfield giving the option to change
+	// them
+	// And while the input its not valid an error message is displayed
 	public void buildUpdateInfoPane(int position, Node node, String errorText) {
 		popupPanel.removeAll();
 		this.position = position;
@@ -119,16 +136,17 @@ public class HomePanel extends JPanel {
 		popupPanel.setLayout(new BoxLayout(popupPanel, BoxLayout.PAGE_AXIS));// a spacer
 		popupPanel.add(jl = new JLabel("Last name:"));
 		popupPanel.add(lastNameTextField);
-		popupPanel.add(jl =new JLabel("Passport:"));
+		popupPanel.add(jl = new JLabel("Passport:"));
 		popupPanel.add(passportTextField);
-		popupPanel.add(jl =new JLabel("Date of arrival:"));
+		popupPanel.add(jl = new JLabel("Date of arrival:"));
 		popupPanel.add(dateField);
-		if(errorText != null) errorMessage = new JLabel(errorText);
+		if (errorText != null)
+			errorMessage = new JLabel(errorText);
 		errorMessage.setForeground(Color.RED);
 		popupPanel.add(errorMessage);
 		int joptPane = JOptionPane.showOptionDialog(null, popupPanel, "Update Information",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon,
-				new String[] { "Save and Close", "Delete", "Close" }, "default");
+				new String[] { "Save", "Remove", "Close" }, "default");
 		if (joptPane == 0) {
 			save.doClick();
 		} else if (joptPane == 1) {
@@ -157,9 +175,11 @@ public class HomePanel extends JPanel {
 		return dateField.getText();
 	}
 
-
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	public String getFindTextField() {
+		return findTextField.getText();
+	}
 }

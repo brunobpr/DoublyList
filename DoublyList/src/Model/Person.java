@@ -14,25 +14,34 @@ public class Person {
 	private String date;
 	private String passport;
 	private Priority priority;
-	
+
 	private String id;
-	//Default constructor
-	public Person() {};
-	
+
+	// Default constructor
+	public Person() {
+	};
+
 	public Person(String name, Priority priority) {
 		//
 		this.firstName = name;
 		this.priority = priority;
 		this.id = this.toString().substring(13).toUpperCase();
 	}
-	
-	//New instance of a person 
-	/** Information regarding new person being registered onto the queue
-	 * @param firstName First Name	
-	 * @param lastName	Last Name	
-	 * @param string		Date of arrival 
-	 * @param passport	Passport Number	
-	 * @param priority	Priority level
+
+	// New instance of a person
+	/**
+	 * Information regarding new person being registered onto the queue
+	 * 
+	 * @param firstName
+	 *            First Name
+	 * @param lastName
+	 *            Last Name
+	 * @param string
+	 *            Date of arrival
+	 * @param passport
+	 *            Passport Number
+	 * @param priority
+	 *            Priority level
 	 */
 	public Person(String firstName, String lastName, String passport, String date, Priority priority) {
 		this.firstName = firstName;
@@ -40,10 +49,13 @@ public class Person {
 		this.passport = passport;
 		this.priority = priority;
 		this.date = date;
-		this.id = firstName.substring(0, 1).toUpperCase() + this.toString().substring(13).toUpperCase();
+		// For each person, the ID will be the String representantion of the object
+		// itself
+		// Not random, but UNIQUE.
+		this.id = this.toString().substring(15).toUpperCase();
 	}
-	
-	// Getters and Setters 
+
+	// Getters and Setters
 	public String getFirstName() {
 		return firstName;
 	}
@@ -72,7 +84,6 @@ public class Person {
 		this.lastName = lastName;
 	}
 
-
 	public void setPassport(String passport) {
 		this.passport = passport;
 	}
@@ -91,8 +102,6 @@ public class Person {
 
 	public void setDate(String date) {
 		this.date = date;
-	} 
-	
-	
-	
+	}
+
 }

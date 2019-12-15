@@ -26,13 +26,17 @@ public class CutOffPanel extends JPanel {
 	private Controller control;
 	private JTextField numberToCut;
 	private JLabel jl;
-	
+
 	public CutOffPanel(Controller controller) {
 		control = controller;
 		setLayout(grid);
-		
+
 	}
 
+	/*
+	 * This Panel gives the user to delete people from the end of the queue, it is
+	 * just need to enter a value and click REMOVE
+	 */
 	public void buildCutOffPanel(int size) {
 		JPanel popupPanel = new JPanel();
 		JButton removeButton = new JButton();
@@ -45,7 +49,7 @@ public class CutOffPanel extends JPanel {
 		popupPanel.add(jl = new JLabel("How many people to be removed?"));
 		popupPanel.add(numberToCut);
 		ImageIcon icon = new ImageIcon("logo.png");
-		int cut = JOptionPane.showOptionDialog(this, popupPanel , "Delete End of the Queue",
+		int cut = JOptionPane.showOptionDialog(this, popupPanel, "Delete End of the Queue",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon,
 				new String[] { "Remove", "Cancel" }, "default");
 		if (cut == JOptionPane.OK_OPTION) {
@@ -53,8 +57,7 @@ public class CutOffPanel extends JPanel {
 		}
 	}
 
-	public int getNumberToCut() {
-		return Integer.valueOf(numberToCut.getText());
+	public String getNumberToCut() {
+		return numberToCut.getText();
 	}
 }
-

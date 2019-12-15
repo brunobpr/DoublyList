@@ -16,10 +16,13 @@ public class QueuePanel extends JPanel {
 		control = controller;
 	}
 
+	// This panel display a table with information of each person in the QUEUE
+	// It possible to change the information displayed, but it does not affect the
+	// queue
 	public void buildQueuePanel(String[][] queue) {
 		removeAll();
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		String[] columnNames = {"Name", "ID","Passport", "Arrival Date","Priority" };
+		String[] columnNames = { "Name", "ID", "Passport", "Arrival Date", "Priority" };
 		JTable table = new JTable(queue, columnNames);
 		table.getColumn("Name").setPreferredWidth(175);
 		table.getColumn("Priority").setPreferredWidth(30);

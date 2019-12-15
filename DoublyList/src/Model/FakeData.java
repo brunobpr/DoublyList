@@ -8,6 +8,9 @@ public class FakeData {
 	public FakeData() {
 	}
 
+	/**
+	 * @return a random first name out of 200
+	 */
 	public String firstName() {
 		String[] firstName = { "Randolph", "Benedikta", "Helen", "Derril", "Lanie", "Morgun", "Claudina", "Terrill",
 				"Liam", "Pavel", "Gert", "Rasla", "Georas", "Maximilianus", "Lauren", "Randy", "Audrey", "Aleece",
@@ -33,6 +36,9 @@ public class FakeData {
 		return firstName[random.nextInt(199) + 0];
 	}
 
+	/**
+	 * @return a random last name out of 200
+	 */
 	public String lastName() {
 		String[] lastName = { "Pakenham", "Storr", "Sink", "Huc", "Potes", "Graith", "Pentycost", "Elliott", "MacVay",
 				"Bavage", "Thurborn", "Stonhouse", "Treharne", "Nemchinov", "Beretta", "Leverson", "Goddard",
@@ -62,6 +68,9 @@ public class FakeData {
 		return lastName[random.nextInt(199) + 0];
 	}
 
+	/**
+	 * @return a random passport number with 5 numbers and letters
+	 */
 	public String passport() {
 		String[] character = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
 				"S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -74,6 +83,9 @@ public class FakeData {
 
 	}
 
+	/**
+	 * @return a random date between 01/01/10 and 31/12/19
+	 */
 	public String date() {
 		String[] dates = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
 				"16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" };
@@ -91,6 +103,9 @@ public class FakeData {
 		return date;
 	}
 
+	/**
+	 * @return a random priority level
+	 */
 	public Priority priority() {
 		// Low priorities will be the majority of people
 		int i = random.nextInt(6) + 0;

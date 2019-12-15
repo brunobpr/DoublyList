@@ -13,13 +13,14 @@ public class Controller extends Validator implements ActionListener {
 	public Controller(DoublyLists db) {
 		doublyList = db;
 		mainView = new MainView(this);
-
+		// If there is at least one person, its name will be shown on the bottom left
+		// side of the main view
+		if (doublyList.getFirst() != null)
+			mainView.showSmallInfoPanel(doublyList.getFirst().getPerson(), doublyList.size);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (doublyList.getFirst() != null)
-			mainView.showSmallInfoPanel(doublyList.getFirst().getPerson(), doublyList.size);
 		switch (event.getActionCommand()) {
 		// Menu Selection Buttons-----------------------------------------
 		// mainView.cardLayout.show is the 'command' to display the corresponding panel
@@ -46,7 +47,7 @@ public class Controller extends Validator implements ActionListener {
 				mainView.showSmallInfoPanel(doublyList.getFirst().getPerson(), doublyList.size);
 			break;
 		// HomePanel Buttons-----------------------------------------
-		case "find_button_pressed":
+		case "find_button_clicked":
 			//
 			mainView.homePanel.responsePanel(doublyList.checkPositionById(mainView.homePanel.getFindTextField()),
 					doublyList.getPersonById(mainView.homePanel.getFindTextField()), null);
@@ -81,7 +82,7 @@ public class Controller extends Validator implements ActionListener {
 						else {
 							if (isNotValidDate(date))
 								mainView.homePanel.buildUpdateInfoPane(doublyList.checkPositionById(id),
-										doublyList.getPersonById(id), "This is not a valid date.");
+										doublyList.getPersonById(id), "This is not a valid date. dd/mm/yy");
 							else {
 								// If all the inputs are valid, the information will be created.
 								doublyList.updateInfoById(id, firstName, lastName, date, passport);
@@ -138,9 +139,19 @@ public class Controller extends Validator implements ActionListener {
 			break;
 		// CutOffPanel Buttons-------------------------------------------------
 		case "remove_from_the_end":
-			doublyList.cutOff(mainView.cutOffPanel.getNumberToCut());
+			if (isNotOnlyNumbers(mainView.cutOffPanel.getNumberToCut()))
+				mainView.cutOffPanel.buildCutOffPanel(doublyList.size);
+			else {
+				doublyList.cutOff(Integer.valueOf(mainView.cutOffPanel.getNumberToCut()));
+			}
 			break;
 		}
+		// Update important information after every click event
+		// The small panel on the bottom left
+		if (doublyList.getFirst() != null)
+			mainView.showSmallInfoPanel(doublyList.getFirst().getPerson(), doublyList.size);
+		// The table on SHOW QUEUE
+		mainView.queuePanel.buildQueuePanel(doublyList.getQueueToTable());
 	}
 
 }
