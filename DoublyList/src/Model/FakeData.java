@@ -113,13 +113,11 @@ public class FakeData {
 			System.out.print("LOW  ");
 			return Priority.LOW;}
 		else if (i == 4) {
-			System.out.println("MEDIUM  ");
+			System.out.print("MEDIUM  ");
 			return Priority.MEDIUM;
-			}
-		else {
+		} else {
 			System.out.print("HIGH  ");
 			return Priority.HIGH;
-			}
-
+		}
 	}
 }

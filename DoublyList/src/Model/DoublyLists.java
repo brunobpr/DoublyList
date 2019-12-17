@@ -297,21 +297,24 @@ public class DoublyLists implements CAInterface {
 	}
 
 	/**
-	 * @return the first node of the queue that its been removed
+	 * @return the first node of the queue that its being removed
 	 */
 	public Node dequeue() {
 		if (size != 0) {
 			Node nodeOut = firstNode;
-			if (firstNode == lastNode)
-				firstNode = null;
-			if (firstNode == lastHighPriorityNode)
+			if(firstNode == lastHighPriorityNode) {
 				lastHighPriorityNode = null;
-			if (firstNode == lastMediumPriorityNode)
+			}
+			if(firstNode == lastMediumPriorityNode) {
 				lastMediumPriorityNode = null;
+			}
+			if (firstNode == lastNode) {
+				firstNode = null;
+				lastNode = null;
+				}
 			else {
 				firstNode.getNext().setPrevious(null);
 				firstNode = firstNode.getNext();
-
 			}
 			size--;
 			return nodeOut;

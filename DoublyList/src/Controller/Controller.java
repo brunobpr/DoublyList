@@ -129,6 +129,7 @@ public class Controller extends Validator implements ActionListener {
 							else {
 								// If all the inputs are valid, the new person will be created.
 								doublyList.newPerson(firstName, lastName, passport, date, priority);
+								
 								// And the user will be sent to the Home page.
 								mainView.cardLayout.show(mainView.contentPanel, "Home");
 							}
