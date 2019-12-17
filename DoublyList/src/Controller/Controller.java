@@ -115,17 +115,17 @@ public class Controller extends Validator implements ActionListener {
 				// First and last name must be only letter
 				// Each if statement will be true when the input is not valid
 				if (notOnlyLetters(firstName))
-					mainView.registrationPanel.setErrorMessage("first name");
+					mainView.registrationPanel.setErrorMessage("first name!");
 				else {
 					// Therefore each else will be 'true' when the input is valid
 					if (notOnlyLetters(lastName))
-						mainView.registrationPanel.setErrorMessage("last name");
+						mainView.registrationPanel.setErrorMessage("last name!");
 					else {
 						if (isNotValidPass(passport))
-							mainView.registrationPanel.setErrorMessage("passport number");
+							mainView.registrationPanel.setErrorMessage("passport number!");
 						else {
 							if (isNotValidDate(date))
-								mainView.registrationPanel.setErrorMessage("date");
+								mainView.registrationPanel.setErrorMessage("date!");
 							else {
 								// If all the inputs are valid, the new person will be created.
 								doublyList.newPerson(firstName, lastName, passport, date, priority);

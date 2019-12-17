@@ -1,10 +1,4 @@
 package Model;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
 /**
  * @author Bruno Ribeiro - 2017138
  * 
@@ -234,8 +228,6 @@ public class DoublyLists implements CAInterface {
 	 *            passport
 	 * @param date
 	 *            date of arrival
-	 * @param priority
-	 *            priority level
 	 */
 	@Override
 	public void updateInfoById(String id, String firstName, String lastName, String date, String passport) {
@@ -357,7 +349,6 @@ public class DoublyLists implements CAInterface {
 	 * @return the node with the person found
 	 */
 	public Node getPersonById(String input) {
-		int position = 1;
 		Node n = firstNode;
 		// Looping through all the elements of the queue...
 		for (int i = 0; i <= size - 1; i++) {
@@ -366,7 +357,6 @@ public class DoublyLists implements CAInterface {
 				return n;
 			} // if not, go for the next element
 			n = n.getNext();
-			position++;
 		}
 		return null;
 	}

@@ -36,7 +36,7 @@ public class Person {
 	 *            First Name
 	 * @param lastName
 	 *            Last Name
-	 * @param string
+	 * @param date
 	 *            Date of arrival
 	 * @param passport
 	 *            Passport Number

@@ -31,9 +31,14 @@ public class RegistrationPanel extends JPanel {
 	private JRadioButton mediumPriorityButton = new JRadioButton("Medium");
 	private JRadioButton lowPriorityButton = new JRadioButton("Low");
 	private JLabel errorMessage = new JLabel("");
-	private JComboBox<String> dayComboBox;
-	private JComboBox<String> monthComboBox;
-	private JComboBox<String> yearComboBox;
+	String[] day = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16",
+			"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "Day" };
+	String[] month = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "Month" };
+	String[] year = { "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+			"Year" };
+	private JComboBox<String> dayComboBox = new JComboBox<String>(day);
+	private JComboBox<String> monthComboBox = new JComboBox<String>(month);
+	private JComboBox<String> yearComboBox = new JComboBox<String>(year);;
 	private JLabel nullMessage = new JLabel("Please fill all the fields!");
 
 	public RegistrationPanel(Controller controller) {
@@ -51,7 +56,7 @@ public class RegistrationPanel extends JPanel {
 		JButton newPersonButton = new JButton("Register");
 		newPersonButton.addActionListener(control);
 		newPersonButton.setActionCommand("new_person_button_clicked");
-		jl.setFont(font = new Font("Verdana", Font.BOLD, 18));
+		jl.setFont(font = new Font("Gloucester MT Extra Condensed", Font.BOLD, 18));
 		setLayout(grid);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -79,18 +84,11 @@ public class RegistrationPanel extends JPanel {
 		gbc.gridx = 1;
 		gbc.gridwidth = 3;
 		add(passportTextField, gbc);
-		String[] day = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16",
-				"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "Day" };
-		String[] month = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "Month" };
-		String[] year = { "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-				"Year" };
-		// Create the combo box, select item at index 4.
-		// Indices start at 0, so 4 specifies the pig.
-		dayComboBox = new JComboBox<String>(day);
+		// Selects the String "Day"
 		dayComboBox.setSelectedIndex(31);
-		monthComboBox = new JComboBox<String>(month);
+		// Selects the String "Month"
 		monthComboBox.setSelectedIndex(12);
-		yearComboBox = new JComboBox<String>(year);
+		// Selects the String "Year"
 		yearComboBox.setSelectedIndex(15);
 		gbc.gridy = 4;
 		gbc.gridx = 0;
@@ -151,6 +149,12 @@ public class RegistrationPanel extends JPanel {
 		passportTextField.setText("");
 		remove(nullMessage);
 		remove(errorMessage);
+		// Selects the String "Day"
+		dayComboBox.setSelectedIndex(31);
+		// Selects the String "Month"
+		monthComboBox.setSelectedIndex(12);
+		// Selects the String "Year"
+		yearComboBox.setSelectedIndex(15);
 	}
 
 	public String getFirstNameTextField() {
@@ -177,6 +181,7 @@ public class RegistrationPanel extends JPanel {
 	public String getDate() {
 		String date = String.valueOf(dayComboBox.getSelectedItem() + "/" + monthComboBox.getSelectedItem() + "/"
 				+ yearComboBox.getSelectedItem());
+		System.out.println(date);
 		return date;
 	}
 

@@ -33,7 +33,7 @@ public class FakeData {
 				"Winonah", "Ignacio", "Gavrielle", "Evey", "Curtice", "Marline", "Craggy", "Donnie", "Perceval",
 				"Emmye", "Salomi", "Khalil", "Lenka", "Viviana", "Karilynn", "Randi", "Haze", "Christian", "Arielle",
 				"Teador", "Whittaker" };
-		return firstName[random.nextInt(199) + 0];
+		return firstName[random.nextInt(199)];
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class FakeData {
 				"Bohlin", "Tolworth"
 
 		};
-		return lastName[random.nextInt(199) + 0];
+		return lastName[random.nextInt(199)];
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class FakeData {
 				"S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 		String passport = "";
 		for (int i = 0; i < 6; i++) {
-			passport = passport + character[random.nextInt(35) + 0];
+			passport = passport + character[random.nextInt(35)];
 		}
 		date();
 		return passport;
@@ -89,15 +89,15 @@ public class FakeData {
 	public String date() {
 		String[] dates = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
 				"16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" };
-		String date = dates[random.nextInt(12) + 0];
+		String date = dates[random.nextInt(12)];
 		if (date.contains("02")) {
-			date = dates[random.nextInt(28) + 0] + "/" + date + "/" + dates[random.nextInt(9) + 10];
+			date = dates[random.nextInt(28)] + "/" + date + "/" + dates[random.nextInt(9) + 10];
 			;
 		} else if (date.contains("01") || date.contains("03") || date.contains("05") || date.contains("07")
 				|| date.contains("08") || date.contains("10") || date.contains("12")) {
-			date = dates[random.nextInt(31) + 0] + "/" + date + "/" + dates[random.nextInt(9) + 10];
+			date = dates[random.nextInt(31)] + "/" + date + "/" + dates[random.nextInt(9) + 10];
 		} else {
-			date = dates[random.nextInt(30) + 0] + "/" + date + "/" + dates[random.nextInt(9) + 10];
+			date = dates[random.nextInt(30)] + "/" + date + "/" + dates[random.nextInt(9) + 10];
 			;
 		}
 		return date;
@@ -108,13 +108,18 @@ public class FakeData {
 	 */
 	public Priority priority() {
 		// Low priorities will be the majority of people
-		int i = random.nextInt(6) + 0;
-		if (i <= 3)
-			return Priority.LOW;
-		else if (i == 4)
+		int i = random.nextInt(6);
+		if (i <= 3) {
+			System.out.print("LOW  ");
+			return Priority.LOW;}
+		else if (i == 4) {
+			System.out.println("MEDIUM  ");
 			return Priority.MEDIUM;
-		else
+			}
+		else {
+			System.out.print("HIGH  ");
 			return Priority.HIGH;
+			}
 
 	}
 }

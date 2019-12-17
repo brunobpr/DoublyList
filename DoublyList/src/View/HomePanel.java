@@ -81,7 +81,7 @@ public class HomePanel extends JPanel {
 		// First option is that there is not a person with the ID given
 		if (position < 1) {
 			JOptionPane.showMessageDialog(this,
-					"ID " + this.getFindTextField() + " does not exist! Try a different ID.", "Person not found!",
+					"ID " + getFindTextField() + " does not match! Try a different ID.", "Person not found!",
 					JOptionPane.PLAIN_MESSAGE);
 		} else {
 			// The second option, there is a person with the ID

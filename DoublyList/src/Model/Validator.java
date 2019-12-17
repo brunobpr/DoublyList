@@ -24,7 +24,7 @@ public class Validator {
 	}
 
 	protected boolean isNotValidDate(String input) {
-		if (input.matches("^[0-9 /]{8}")) {
+		if (input.matches("[0-9/]{8}+")) {
 			return false;
 		}
 		return true;

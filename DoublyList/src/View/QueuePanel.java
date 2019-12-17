@@ -10,7 +10,7 @@ import Controller.Controller;
 
 public class QueuePanel extends JPanel {
 	private Controller control;
-	private Font font;
+	private Font font = new Font("Courier", Font.PLAIN, 12);;
 
 	public QueuePanel(Controller controller) {
 		control = controller;
@@ -26,6 +26,7 @@ public class QueuePanel extends JPanel {
 		JTable table = new JTable(queue, columnNames);
 		table.getColumn("Name").setPreferredWidth(175);
 		table.getColumn("Priority").setPreferredWidth(30);
+		table.setFont(font);
 		// adding it to JScrollPane
 		JScrollPane sp = new JScrollPane(table);
 		add(sp);
