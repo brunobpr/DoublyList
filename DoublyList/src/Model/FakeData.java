@@ -110,13 +110,11 @@ public class FakeData {
 		// Low priorities will be the majority of people
 		int i = random.nextInt(6);
 		if (i <= 3) {
-			System.out.print("LOW  ");
 			return Priority.LOW;}
 		else if (i == 4) {
-			System.out.print("MEDIUM  ");
+		
 			return Priority.MEDIUM;
 		} else {
-			System.out.print("HIGH  ");
 			return Priority.HIGH;
 		}
 	}

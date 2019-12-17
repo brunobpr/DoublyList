@@ -85,7 +85,7 @@ public class Person {
 	}
 
 	public void setPassport(String passport) {
-		this.passport = passport;
+		this.passport = passport.toUpperCase();
 	}
 
 	public String getId() {
